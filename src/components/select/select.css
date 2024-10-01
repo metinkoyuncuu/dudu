@@ -1,0 +1,19 @@
+.select-box {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px; /* Seçim kutusu ile arama kutusu arasında boşluk */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+  
