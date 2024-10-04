@@ -20,7 +20,7 @@ const Select = ({
   const [selectedValue, setSelectedValue] = useState(''); // Seçili değer
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown'un açık olup olmadığını kontrol eder
   var leftsize = 0;
-  var divLeftSize = left;
+  var divLeftSize = left;//commit
 
   // Arama terimi güncellendiğinde tetiklenen fonksiyon
   const handleSearchChange = (e) => {
