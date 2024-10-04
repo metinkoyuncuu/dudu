@@ -15,6 +15,9 @@ const RadioDemo = () => {
     <div>
       <h2>Single Selection (Radio):</h2>
       <Radio
+      radioSize='39px'
+      radioColor='red'
+      checkedColor='red'
         options={options}
         name="singleSelection"
         selectedValue={selectedOption}
@@ -25,6 +28,8 @@ const RadioDemo = () => {
       
       <h2>Multiple Selection (Checkbox):</h2>
       <Radio
+      checkedColor='red'
+      radioColor='red'
         options={options}
         name="multipleSelection"
         selectedValue={selectedOptions}

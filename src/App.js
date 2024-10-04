@@ -5,13 +5,17 @@ import Select from './components/select/select';
 import SelectDemo from './components/select/SelectDemo';
 import RadioDemo from './components/radio/radioDemo';
 import FileDemo from './components/file/fileDemo';
+import 'react-select-search/style.css'
 
 function App() {
   
 
   return (
     <div className="App">
+ 
       <SelectDemo/>
+      
+      <Select/>
       <RadioDemo/>
       <FileDemo/>
     </div>

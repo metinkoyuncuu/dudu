@@ -1,19 +1,100 @@
+/* Select container */
+.select-container {
+  position: relative;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+}
+
+/* Select box */
 .select-box {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
-  }
-  
-  .search-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px; /* Seçim kutusu ile arama kutusu arasında boşluk */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-  }
-  
+  cursor: pointer;
+  padding: 12px;
+  width: auto;
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.select-box.active {
+  border-color: #f0ad4e;
+  background-color: #fff8e1;
+}
+
+/* Ok simgesi */
+.arrow {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #333;
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.arrow.up {
+  transform: rotate(180deg);
+}
+
+/* Dropdown container */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  width: 90%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.search-input {
+  width: calc(100% - 24px);
+  margin: 8px;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  background: #fff url('https://cdn-icons-png.flaticon.com/512/483/483356.png') no-repeat right 10px center;
+  background-size: 16px;
+}
+
+.search-input:focus {
+  border-color: #f0ad4e;
+}
+
+/* Dropdown list and items */
+.dropdown-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background-color: #f0ad4e;
+  color: #fff;
+}
+
+.dropdown-item.selected {
+  background-color: #ffe599;
+}
