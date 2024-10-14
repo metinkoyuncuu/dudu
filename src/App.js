@@ -8,6 +8,7 @@ import FileDemo from './components/file/fileDemo';
 import 'react-select-search/style.css'
 import  Checkbox  from "react-woodpecker";
 
+import GridDemo from './components/Agtstrap/GridDemo';
 function App() {
   const [checke,setChecke] = useState(false);
 
@@ -18,7 +19,9 @@ function App() {
 
   return (
     <div className="App">
-      <Checkbox
+      <GridDemo/>
+
+      {/* <Checkbox
         label="Primary"
         checked = {true}
         onChange = {()=>x()}
@@ -31,7 +34,7 @@ function App() {
       
       <Select/>
       <RadioDemo/>
-      <FileDemo/>
+      <FileDemo/> */}
     </div>
   );
 }
