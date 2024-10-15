@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './select.css';
 
 const Select = ({ 
   labeltext,
   name,
-  options, 
   onChange, 
   placeholder, 
   backgroundColor, 
@@ -14,7 +13,8 @@ const Select = ({
   padding,
   isSearchable,
   left = 0,
-  hardInput = false
+  hardInput = false,
+  reqGet
 }) => {
   const [searchTerm, setSearchTerm] = useState(''); // Arama terimi
   const [selectedValue, setSelectedValue] = useState(''); // Seçili değer
@@ -36,11 +36,23 @@ const Select = ({
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen); // Dropdown'u açıp kapama
   };
-
   // Filtrelenen seçenekler
-  const filteredOptions = options?.filter(option =>
+  const filteredOptions = item?.filter(option =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const [item,setItem]=useState();
+
+  const get = async ()=>{
+    await get(reqGet).then((res)=>{
+      setItem(res.data.items) 
+    });
+    
+  }
+
+  useEffect(()=>{
+    get() ;
+  },[])
 
   return (
     <div style={{width:'100%',marginLeft: divLeftSize+'%'}}>
@@ -63,7 +75,7 @@ const Select = ({
             left : leftsize +5+'%',
           }}
         >
-          {selectedValue ? options.find(opt => opt.value === selectedValue)?.left : placeholder}
+          {selectedValue ? item.find(opt => opt.value === selectedValue)?.left : placeholder}
           <span className={`arrow ${isDropdownOpen ? 'up' : 'down'}`} />
         </div>
 

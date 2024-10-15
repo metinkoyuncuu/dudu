@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Select from './select';
-import { useSelect } from 'react-select-search';
-import MyMultiSelect from './searchselect';
-import SelectSearch from 'react-select-search';
-import CustomSelect from './customselect';
 
 
 //  const options = [
@@ -17,23 +13,14 @@ function SelectDemo() {
     { value: 'option1', label: 'Option 2' },
     { value: 'option2', label: 'Option 23' },
     { value: 'option3', label: 'Option 3' }
-  ];//Data bu şekilde gelmeli
-  const options2 = [
-    {name: 'Swedish', value: 'sv'},
-    {name: 'English', value: 'en'},
-    {
-        type: 'group',
-        name: 'Group name',
-        items: [
-            {name: 'Spanish', value: 'es'},
-        ]
-    },
-];
+  ];
 
 /* Simple example */
   const handleSelectChange = (event) => {
     console.log('Selected value:', event.target.value);
   };
+
+ 
 
 
 
@@ -41,13 +28,29 @@ function SelectDemo() {
     return (
         <>
        <Select 
+        reqGet={'Companies?PageIndex=0&PageSize=10'}
+        name={'city'}
+        onChange={handleSelectChange} 
+        labeltext ={'Branş'}
+        placeholder="Select "
+        backgroundColor={'white'}
+        padding={'3%'}
+        width={'100%'}        
+        //borderWidth={'9px'}
+        borderColor={'green'}
+        hardInput={true}
+        isSearchable={true}
+  
+      />
+      <Select 
+       name={'district'}
         options={options} 
         onChange={handleSelectChange} 
         labeltext ={'Branş'}
         placeholder="Select "
         backgroundColor={'white'}
-        padding={'7px'}
-        width={'20%'}        
+        padding={'3%'}
+        width={'100%'}        
         //borderWidth={'9px'}
         borderColor={'green'}
         hardInput={true}
