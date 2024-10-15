@@ -35,7 +35,7 @@ export default function GridDemo() {
             <div style={{ backgroundColor: '#dee2e6', padding: '20px' }}>
               Çeyrek genişlikte sütun (3/12)
             </div>
-          </GridCol>
+          </GridCol>/*
           
 
           {/* Üçte bir genişlikte sütun (4/12): Sadece orta ve büyük ekranlarda */}
