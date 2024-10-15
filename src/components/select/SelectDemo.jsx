@@ -28,7 +28,7 @@ function SelectDemo() {
     return (
         <>
        <Select 
-        reqGet={'Companies?PageIndex=0&PageSize=10'}
+        reqGet={'/UHaslib/brans'}
         name={'city'}
         onChange={handleSelectChange} 
         labeltext ={'Branş'}
@@ -39,12 +39,12 @@ function SelectDemo() {
         //borderWidth={'9px'}
         borderColor={'green'}
         hardInput={true}
-        isSearchable={true}
-  
+        isSearchable={true}  
       />
-      <Select 
-       name={'district'}
-        options={options} 
+
+<Select 
+        reqGet={'/UHaslib/cinsiyet'}
+        name={'cinsiyet'}
         onChange={handleSelectChange} 
         labeltext ={'Branş'}
         placeholder="Select "
@@ -54,9 +54,9 @@ function SelectDemo() {
         //borderWidth={'9px'}
         borderColor={'green'}
         hardInput={true}
-        isSearchable={true}
-  
+        isSearchable={true}  
       />
+    
       </>
     )
 }
