@@ -1,5 +1,5 @@
-import React from 'react'
-import Select from './select';
+import React from 'react';
+import SelectOneListBox from './selectOneListBox';
 
 
 //  const options = [
@@ -27,7 +27,7 @@ function SelectDemo() {
 //soldan sağdan
     return (
         <>
-       <Select 
+       <SelectOneListBox 
         reqGet={'/UHaslib/brans'}
         name={'city'}
         onChange={handleSelectChange} 
@@ -42,7 +42,7 @@ function SelectDemo() {
         isSearchable={true}  
       />
 
-<Select 
+<SelectOneListBox 
         reqGet={'/UHaslib/cinsiyet'}
         name={'cinsiyet'}
         onChange={handleSelectChange} 

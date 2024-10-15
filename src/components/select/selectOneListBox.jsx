@@ -3,7 +3,7 @@ import './select.css';
 import Service from '../../services/servicedemo';
 
 
-const Select = ({ 
+const SelectOneListBox = ({ 
   labeltext,
   name,
   onChange, 
@@ -116,4 +116,4 @@ const Select = ({
   );
 };
 
-export default Select;
+export default SelectOneListBox;
