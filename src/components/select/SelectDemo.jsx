@@ -51,19 +51,19 @@ function SelectDemo() {
         isSearchable={true}  
       /> 
 
-{/* <SelectCheckListBox
+{ <SelectCheckListBox
         reqGet={'/UHaslib/cinsiyet'} 
-        name={'cinsiyet'} 
+        name={'cinsiyetsss'} 
         onChange={handleSelectChange} 
-        labeltext={'Branş'}
+        labeltext={'BranşsAtakankılabaz'}
         placeholder="Select"
         backgroundColor={'white'}
-        padding={'3%'}
-        width={'50%'} 
+        width={'31%'} 
         borderColor={'green'} 
         hardInput={true} 
         isSearchable={true} 
-      /> */}
+      /> 
+      }
     
       </>
     )

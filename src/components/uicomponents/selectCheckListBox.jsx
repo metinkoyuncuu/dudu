@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import '../uicomponents/uicomponentscss/select.css';
 import Service from '../../services/servicedemo';
 
-const SelectCheckListBox = ({ 
+const SelectCheckListBox = ({
   labeltext,
   name,
-  onChange, 
-  placeholder, 
-  backgroundColor, 
-  width, 
-  borderColor, 
+  onChange,
+  placeholder,
+  backgroundColor,
+  width,
+  borderColor,
   borderWidth,
   padding,
   isSearchable,
@@ -82,40 +82,66 @@ const SelectCheckListBox = ({
   }, []);
 
   return (
-    <div style={{ width: '100%', marginLeft: divLeftSize + '%' }}>
-      <div className="select-container" style={{ width: width || '100%' }}>
-        <div style={{ display: 'flex', alignItems: 'center', width: '10%', left: leftsize + '%' }}>
+    <div style={{
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: `${divLeftSize}%`
+    }}>
+      {/* Label section */}
+      <div style={{
+        minWidth: '80px',
+        marginRight: '10px',
+        textAlign: 'left'
+      }}>
+        <label style={{
+          fontSize: '14px',
+          lineHeight: '1.5',
+          display: 'block' // Make sure the label is block level
+        }}>
           {labeltext}
-          {hardInput && (
-            <> <span style={{ color: 'red' }}> *</span> </> 
-          )}
-        </div>
+        </label>
+        {hardInput && (
+          <span style={{
+            color: 'red',
+            marginLeft: '3px', // Small space between the label and *
+            lineHeight: '1.5'
+          }}>*</span>
+        )}
+      </div>
 
-        <div 
-          className={`select-box ${isDropdownOpen ? 'activex' : ''}`} 
-          onClick={toggleDropdown} 
+      <div className="select-container" style={{ width: width || '100%' }}>
+        <div
+          className={`select-box ${isDropdownOpen ? 'activex' : ''}`}
+          onClick={toggleDropdown}
           style={{
             backgroundColor: backgroundColor || '#fff',
             borderColor: borderColor || 'green',
             borderWidth: borderWidth || '1px',
             padding: padding || '4px',
-            width: width || '10%', // Dynamic width setting
-            maxWidth: width || '20%', // Maximum width constraint
+            width: width || '31%', // Layout için ayarlayın
+            maxWidth: width || '31%',
             minWidth: '3%',
             cursor: 'pointer',
             textAlign: 'left',
             display: 'flex',
-            alignItems: 'center', // Ensures vertical alignment within the box
+            alignItems: 'center',
           }}
         >
-          {selectedValues.length > 0 
-            ? selectedValues.map(val => item.find(opt => opt?.value === val)?.label).join(', ')
-            : placeholder}
+          <div style={{ flexGrow: 1 }}>
+            {/* Seçilen değerler varsa virgülle ayırarak göster */}
+            {selectedValues.length > 0
+              ? selectedValues
+                .map(val => item.find(opt => opt?.value === val)?.label) // Değerin label'ını bul
+                .filter(label => label) // Null veya undefined olanları filtrele
+                .join(', ') // Virgülle ayırarak birleştir
+              : placeholder}
+          </div>
           <span className={`arrow ${isDropdownOpen ? 'up' : 'down'}`} />
         </div>
 
         {isDropdownOpen && (
-          <div className="dropdown" style={{ left: leftsize + 15 + '%' }}> 
+          <div className="dropdown" style={{ width: '46%' }}>
             {isSearchable && (
               <input
                 type="text"
@@ -127,17 +153,17 @@ const SelectCheckListBox = ({
               />
             )}
 
-            <ul className="dropdown-list" style={{ width: '90%' }}>
+            <ul className="dropdown-list" style={{ width: '100%' }}>
               {filteredOptions?.map((option, index) => (
-                option?.value && option?.label ? (  // Hem value hem label var mı kontrol ediyoruz
-                  <li 
-                    key={index} 
-                    onClick={() => handleSelectChange(option)}
+                option?.value && option?.label ? ( // Hem value hem label var mı kontrol ediyoruz
+                  <li
+                    key={index}
+                    onClick={() => handleSelectChange(option)} // Seçim işlemi
                     className={`dropdown-item ${selectedValues.includes(option.value) ? 'selected' : ''}`}
                   >
-                    <input 
-                      type="checkbox" 
-                      checked={selectedValues.includes(option.value)} 
+                    <input
+                      type="checkbox"
+                      checked={selectedValues.includes(option.value)}
                       readOnly
                     /> {option.label}
                   </li>
