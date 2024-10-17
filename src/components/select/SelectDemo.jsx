@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectOneListBox from './selectOneListBox';
+import SelectOneListBox from '../uicomponents/selectOneListBox';
 
 
 //  const options = [

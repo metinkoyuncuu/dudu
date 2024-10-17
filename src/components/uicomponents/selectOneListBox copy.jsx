@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './select.css';
+import '../uicomponents/uicomponentscss/select.css';
 import Service from '../../services/servicedemo';
 
 
