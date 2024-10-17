@@ -97,4 +97,5 @@
 
 .dropdown-item.selected {
   background-color: #ffe599;
+  color: #000;
 }

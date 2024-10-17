@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../uicomponents/uicomponentscss/select.css';
 import Service from '../../services/servicedemo';
 
-
-const SelectOneListBox = ({ 
+const SelectCheckListBox = ({ 
   labeltext,
   name,
   onChange, 
@@ -19,7 +18,7 @@ const SelectOneListBox = ({
   reqGet
 }) => {
   const [searchTerm, setSearchTerm] = useState(''); // Arama terimi
-  const [selectedValue, setSelectedValue] = useState(''); // Seçili değer
+  const [selectedValues, setSelectedValues] = useState([]); // Çoklu seçim için seçili değerler
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown'un açık olup olmadığını kontrol eder
   const [item, setItem] = useState([]);
 
@@ -31,10 +30,27 @@ const SelectOneListBox = ({
     setSearchTerm(e.target.value);
   };
 
-  const handleSelectChange = (e) => {
-    setSelectedValue(e.target.value); // Seçili değeri güncelle
-    setIsDropdownOpen(false); // Seçim yapıldıktan sonra listeyi kapat
-    onChange(e); // Üst bileşene değeri bildir
+  // Seçim değiştirildiğinde çağrılan fonksiyon
+  const handleSelectChange = (option) => {
+    console.log('Selected option:', option); // Seçilen opsiyonu yazdır
+
+    // Option kontrolü
+    if (!option || !option.value) {
+      console.error('Invalid option or undefined value:', option);
+      return; // Option yoksa veya value undefined ise işlem yapma
+    }
+
+    const selected = selectedValues.includes(option.value);
+    let updatedValues;
+
+    if (selected) {
+      updatedValues = selectedValues.filter(val => val !== option.value); // Seçiliyse çıkar
+    } else {
+      updatedValues = [...selectedValues, option.value]; // Seçili değilse ekle
+    }
+
+    setSelectedValues(updatedValues); // Güncelle
+    onChange(updatedValues); // Üst bileşene güncel değerleri bildir
   };
 
   const toggleDropdown = () => {
@@ -43,14 +59,13 @@ const SelectOneListBox = ({
 
   // Filtrelenen seçenekler
   const filteredOptions = item?.filter(option =>
-    option.label.toLowerCase().includes(searchTerm.toLowerCase())
+    option && option.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const fetchData = async () => {
     try {
       const res = await Service.get(reqGet); // Burada reqGet fonksiyonunu çalıştırın
       setItem(res || []); // Gelen değeri setItem ile güncelleyin
-      console.log(res);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -81,7 +96,9 @@ const SelectOneListBox = ({
             left: leftsize + 5 + '%',
           }}
         >
-          {selectedValue ? item.find(opt => opt.value === selectedValue)?.label : placeholder}
+          {selectedValues.length > 0 
+            ? selectedValues.map(val => item.find(opt => opt?.value === val)?.label).join(', ')
+            : placeholder}
           <span className={`arrow ${isDropdownOpen ? 'up' : 'down'}`} />
         </div>
 
@@ -100,13 +117,19 @@ const SelectOneListBox = ({
 
             <ul className="dropdown-list" style={{ width: '90%' }}>
               {filteredOptions?.map((option, index) => (
-                <li 
-                  key={index} 
-                  onClick={() => handleSelectChange({ target: { value: option.value }})}
-                  className="dropdown-item"
-                >
-                  {option.label}
-                </li>
+                option?.value && option?.label ? (  // Hem value hem label var mı kontrol ediyoruz
+                  <li 
+                    key={index} 
+                    onClick={() => handleSelectChange(option)}
+                    className={`dropdown-item ${selectedValues.includes(option.value) ? 'selected' : ''}`}
+                  >
+                    <input 
+                      type="checkbox" 
+                      checked={selectedValues.includes(option.value)} 
+                      readOnly
+                    /> {option.label}
+                  </li>
+                ) : null
               ))}
             </ul>
           </div>
@@ -116,4 +139,4 @@ const SelectOneListBox = ({
   );
 };
 
-export default SelectOneListBox;
+export default SelectCheckListBox;

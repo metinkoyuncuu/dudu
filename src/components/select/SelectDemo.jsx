@@ -1,5 +1,7 @@
 import React from 'react';
 import SelectOneListBox from '../uicomponents/selectOneListBox';
+import SelectCheckListBox from '../uicomponents/selectCheckListBox';
+
 
 
 //  const options = [
@@ -9,20 +11,12 @@ import SelectOneListBox from '../uicomponents/selectOneListBox';
 //   ];//Data bu şekilde gelmeli
 
 function SelectDemo() {
-  const options = [
-    { value: 'option1', label: 'Option 2' },
-    { value: 'option2', label: 'Option 23' },
-    { value: 'option3', label: 'Option 3' }
-  ];
+ 
 
 /* Simple example */
   const handleSelectChange = (event) => {
     console.log('Selected value:', event.target.value);
   };
-
- 
-
-
 
 //soldan sağdan
     return (
@@ -55,6 +49,20 @@ function SelectDemo() {
         borderColor={'green'}
         hardInput={true}
         isSearchable={true}  
+      />
+
+<SelectCheckListBox
+        reqGet={'/UHaslib/cinsiyet'} 
+        name={'cinsiyet'} 
+        onChange={handleSelectChange} 
+        labeltext={'Branş'}
+        placeholder="Select"
+        backgroundColor={'white'}
+        padding={'3%'}
+        width={'100%'} 
+        borderColor={'green'} 
+        hardInput={true} 
+        isSearchable={true} 
       />
     
       </>
