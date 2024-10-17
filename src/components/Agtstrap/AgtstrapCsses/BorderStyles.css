@@ -1,0 +1,51 @@
+.border { border: 1px solid #dee2e6; } /* Genel çerçeve */
+.border-0 { border: none; } /* Çerçeveyi kaldırır */
+.border-top { border-top: 1px solid #dee2e6; } /* Sadece üstte çerçeve */
+.border-right { border-right: 1px solid #dee2e6; } /* Sadece sağda çerçeve */
+.border-bottom { border-bottom: 1px solid #dee2e6; } /* Sadece altta çerçeve */
+.border-left { border-left: 1px solid #dee2e6; } /* Sadece solda çerçeve */
+
+/* Kalınlıklar */
+.border-thin { border-width: 1px; }
+.border-medium { border-width: 2px; }
+.border-thick { border-width: 4px; }
+
+/* Modeller */
+.border-dashed { border-style: dashed; } /* Kesik çizgili çerçeve */
+.border-dotted { border-style: dotted; } /* Noktalı çerçeve */
+.border-solid { border-style: solid; } /* Düz çizgili çerçeve */
+
+/* Yuvarlama*/
+.rounded { border-radius: 0.25rem; } /* Küçük yuvarlatılmış köşeler */
+.rounded-top { border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; } /* Sadece üst köşeler yuvarlatılmış */
+.rounded-right { border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem; } /* Sadece sağ köşeler yuvarlatılmış */
+.rounded-bottom { border-bottom-left-radius: 0.25rem; border-bottom-right-radius: 0.25rem; } /* Sadece alt köşeler yuvarlatılmış */
+.rounded-left { border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem; } /* Sadece sol köşeler yuvarlatılmış */
+.rounded-circle { border-radius: 50%; } /* Tam dairesel köşeler */
+.rounded-pill { border-radius: 50rem; } /* Daha yuvarlak, hap şeklinde köşeler */
+.rounded-0 { border-radius: 0; } /* Köşe yuvarlamayı kaldırır */
+
+
+/* Renkler */
+
+.border-red { border-color: red; } /* Kırmızı çerçeve */
+.border-blue { border-color: blue; } /* Mavi çerçeve */
+.border-green { border-color: green; } /* Yeşil çerçeve */
+.border-yellow { border-color: yellow; } /* Sarı çerçeve */
+.border-orange { border-color: orange; } /* Turuncu çerçeve */
+.border-purple { border-color: purple; } /* Mor çerçeve */
+.border-pink { border-color: pink; } /* Pembe çerçeve */
+.border-brown { border-color: brown; } /* Kahverengi çerçeve */
+.border-gray { border-color: gray; } /* Gri çerçeve */
+.border-black { border-color: black; } /* Siyah çerçeve */
+.border-white { border-color: white; } /* Beyaz çerçeve */
+.border-cyan { border-color: cyan; } /* Camgöbeği çerçeve */
+.border-magenta { border-color: magenta; } /* Eflatun çerçeve */
+.border-lime { border-color: lime; } /* Açık yeşil çerçeve */
+.border-indigo { border-color: indigo; } /* Lacivert çerçeve */
+.border-teal { border-color: teal; } /* Deniz mavisi çerçeve */
+.border-violet { border-color: violet; } /* Menekşe çerçeve */
+.border-gold { border-color: gold; } /* Altın sarısı çerçeve */
+.border-silver { border-color: silver; } /* Gümüş çerçeve */
+.border-olive { border-color: olive; } /* Zeytin yeşili çerçeve */
+

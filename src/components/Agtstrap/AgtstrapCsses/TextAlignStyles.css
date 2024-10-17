@@ -1,0 +1,4 @@
+.text-left { text-align: left; } /* Metni sola hizalar */
+.text-right { text-align: right; } /* Metni sağa hizalar */
+.text-center { text-align: center; } /* Metni ortaya hizalar */
+.text-justify { text-align: justify; } /* Metni iki yana yaslar */

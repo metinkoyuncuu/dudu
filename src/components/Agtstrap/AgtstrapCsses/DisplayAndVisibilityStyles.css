@@ -1,0 +1,7 @@
+.d-none { display: none; } /* Elemanı tamamen gizler */
+.d-block { display: block; } /* Elemanı blok olarak görüntüler */
+.d-inline { display: inline; } /* Elemanı satır içi olarak görüntüler */
+.d-inline-block { display: inline-block; } /* Satır içi blok şeklinde görüntüler */
+
+.visible { visibility: visible; } /* Elemanı görünür yapar */
+.invisible { visibility: hidden; } /* Elemanı görünmez yapar ama yer tutmaya devam eder */

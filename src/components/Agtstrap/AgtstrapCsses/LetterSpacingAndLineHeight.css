@@ -1,0 +1,10 @@
+.ls-1 { letter-spacing: 1px; } /* Harfler arasına 1px boşluk ekler */
+.ls-2 { letter-spacing: 2px; } /* Harfler arasına 2px boşluk ekler */
+.ls-3 { letter-spacing: 3px; } /* Harfler arasına 3px boşluk ekler */
+.ls-4 { letter-spacing: 4px; } /* Harfler arasına 4px boşluk ekler */
+.ls-5 { letter-spacing: 5px; } /* Harfler arasına 5px boşluk ekler */
+
+.lh-1 { line-height: 1; } /* Satır yüksekliğini 1 yapar (çok sıkı) */
+.lh-1-25 { line-height: 1.25; } /* Satır yüksekliğini 1.25 yapar */
+.lh-1-5 { line-height: 1.5; } /* Satır yüksekliğini 1.5 yapar */
+.lh-2 { line-height: 2; } /* Satır yüksekliğini 2 yapar (daha geniş) */

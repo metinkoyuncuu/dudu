@@ -1,0 +1,4 @@
+.overflow-auto { overflow: auto; } /* İçerik taştığında kaydırma çubukları gösterilir */
+.overflow-hidden { overflow: hidden; } /* Taşan içerik gizlenir */
+.overflow-visible { overflow: visible; } /* İçerik taşarsa gösterilir (varsayılan) */
+.overflow-scroll { overflow: scroll; } /* Her zaman kaydırma çubuğu gösterilir, içerik taşmasa bile */

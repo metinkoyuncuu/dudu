@@ -1,0 +1,14 @@
+.d-flex { display: flex; } /* Elemanları flex kutu haline getirir */
+.flex-row { flex-direction: row; } /* Elemanları yatayda hizalar (varsayılan) */
+.flex-column { flex-direction: column; } /* Elemanları dikeyde hizalar */
+
+
+.justify-content-start { justify-content: flex-start; } /* Başlangıçta hizalar */
+.justify-content-center { justify-content: center; } /* Ortada hizalar */
+.justify-content-end { justify-content: flex-end; } /* Sonda hizalar */
+.justify-content-between { justify-content: space-between; } /* Elemanlar arasında boşluk bırakır */
+.justify-content-around { justify-content: space-around; } /* Elemanların etrafında eşit boşluk bırakır */
+
+.align-items-start { align-items: flex-start; } /* Elemanları üstte hizalar */
+.align-items-center { align-items: center; } /* Elemanları ortada hizalar */
+.align-items-end { align-items: flex-end; } /* Elemanları altta hizalar */

@@ -1,0 +1,10 @@
+.position-static { position: static; } /* Varsayılan, eleman sayfa akışına göre konumlandırılır */
+.position-relative { position: relative; } /* Eleman kendi bulunduğu konuma göre ayarlanır */
+.position-absolute { position: absolute; } /* Eleman en yakın konumlandırılmış üst elemanına göre konumlandırılır */
+.position-fixed { position: fixed; } /* Eleman ekran penceresine sabitlenir, kaydırmayla hareket etmez */
+.position-sticky { position: sticky; } /* Eleman kaydırma sırasında sabitlenir (scroll ile birlikte) */
+
+.top-0 { top: 0; } /* Elemanı yukarı hizalar */
+.right-0 { right: 0; } /* Elemanı sağa hizalar */
+.bottom-0 { bottom: 0; } /* Elemanı alta hizalar */
+.left-0 { left: 0; } /* Elemanı sola hizalar */
