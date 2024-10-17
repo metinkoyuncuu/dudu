@@ -44,7 +44,7 @@ function SelectDemo() {
         placeholder="Select "
         backgroundColor={'white'}
         // padding={'3%'}
-        width={'15%'}        
+        width={'10%'}        
         //borderWidth={'9px'}
         borderColor={'green'}
         hardInput={true}

@@ -96,10 +96,16 @@ const SelectCheckListBox = ({
           onClick={toggleDropdown} 
           style={{
             backgroundColor: backgroundColor || '#fff',
-            borderColor: borderColor || '#ccc',
+            borderColor: borderColor || 'green',
             borderWidth: borderWidth || '1px',
-            padding: padding || '4px',        
-            left: leftsize + 5 + '%',
+            padding: padding || '4px',
+            width: width || '10%', // Dynamic width setting
+            maxWidth: width || '20%', // Maximum width constraint
+            minWidth: '3%',
+            cursor: 'pointer',
+            textAlign: 'left',
+            display: 'flex',
+            alignItems: 'center', // Ensures vertical alignment within the box
           }}
         >
           {selectedValues.length > 0 
