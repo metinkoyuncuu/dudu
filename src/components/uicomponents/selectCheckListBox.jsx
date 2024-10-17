@@ -37,20 +37,26 @@ const SelectCheckListBox = ({
     // Option kontrolü
     if (!option || !option.value) {
       console.error('Invalid option or undefined value:', option);
+
       return; // Option yoksa veya value undefined ise işlem yapma
     }
 
     const selected = selectedValues.includes(option.value);
+
     let updatedValues;
 
     if (selected) {
       updatedValues = selectedValues.filter(val => val !== option.value); // Seçiliyse çıkar
+
     } else {
       updatedValues = [...selectedValues, option.value]; // Seçili değilse ekle
+
     }
 
     setSelectedValues(updatedValues); // Güncelle
+
     onChange(updatedValues); // Üst bileşene güncel değerleri bildir
+
   };
 
   const toggleDropdown = () => {

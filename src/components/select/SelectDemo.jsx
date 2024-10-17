@@ -15,13 +15,13 @@ function SelectDemo() {
 
 /* Simple example */
   const handleSelectChange = (event) => {
-    console.log('Selected value:', event.target.value);
+    console.log('Selected value:', event);
   };
 
 //soldan sağdan
     return (
         <>
-       <SelectOneListBox 
+        {/* <SelectOneListBox 
         reqGet={'/UHaslib/brans'}
         name={'city'}
         onChange={handleSelectChange} 
@@ -34,7 +34,7 @@ function SelectDemo() {
         borderColor={'green'}
         hardInput={true}
         isSearchable={true}  
-      />
+      /> */}
 
 <SelectOneListBox 
         reqGet={'/UHaslib/cinsiyet'}
@@ -43,15 +43,15 @@ function SelectDemo() {
         labeltext ={'Branş'}
         placeholder="Select "
         backgroundColor={'white'}
-        padding={'3%'}
-        width={'100%'}        
+        // padding={'3%'}
+        width={'15%'}        
         //borderWidth={'9px'}
         borderColor={'green'}
         hardInput={true}
         isSearchable={true}  
-      />
+      /> 
 
-<SelectCheckListBox
+{/* <SelectCheckListBox
         reqGet={'/UHaslib/cinsiyet'} 
         name={'cinsiyet'} 
         onChange={handleSelectChange} 
@@ -59,11 +59,11 @@ function SelectDemo() {
         placeholder="Select"
         backgroundColor={'white'}
         padding={'3%'}
-        width={'100%'} 
+        width={'50%'} 
         borderColor={'green'} 
         hardInput={true} 
         isSearchable={true} 
-      />
+      /> */}
     
       </>
     )

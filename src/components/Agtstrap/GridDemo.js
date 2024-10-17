@@ -27,7 +27,6 @@ export default function GridDemo() {
           {/* Yarım genişlikte sütun (6/12): Tüm ekran boyutlarında */}
           <GridCol size={{ md: 3 }}>
             <div style={{ backgroundColor: '#e9ecef' }}>
-              <SelectDemo />
             </div>
           </GridCol> 
 

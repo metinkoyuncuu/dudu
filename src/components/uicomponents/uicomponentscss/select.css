@@ -12,8 +12,7 @@
 /* Select box */
 .select-box {
   cursor: pointer;
-  padding: 12px;
-  width: auto;
+  width: 20%;
   flex: 1;
   border: 1px solid #ccc;
   border-radius: 4px;

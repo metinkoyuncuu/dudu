@@ -34,7 +34,9 @@ const SelectOneListBox = ({
   const handleSelectChange = (e) => {
     setSelectedValue(e.target.value); // Seçili değeri güncelle
     setIsDropdownOpen(false); // Seçim yapıldıktan sonra listeyi kapat
-    onChange(e); // Üst bileşene değeri bildir
+    console.log(e);
+    
+    onChange(e.target.value); // Üst bileşene değeri bildir
   };
 
   const toggleDropdown = () => {
@@ -61,15 +63,16 @@ const SelectOneListBox = ({
   }, []);
 
   return (
-    <div style={{ width: '100%', marginLeft: divLeftSize + '%' }}>
+    <div style={{ width: '100%', marginLeft: divLeftSize + '%' , display:'flex',alignItems:'center'}}>
+    
       <div className="select-container" style={{ width: width || '100%' }}>
-        <div style={{ display: 'flex', alignItems: 'center', width: '10%', left: leftsize + '%' }}>
+        
+      <div style={{ display: 'flex', alignItems: 'center', width: '10%', left: leftsize + '%' }}>
           {labeltext}
           {hardInput && (
             <> <span style={{ color: 'red' }}> *</span> </> 
           )}
         </div>
-
         <div 
           className={`select-box ${isDropdownOpen ? 'activex' : ''}`} 
           onClick={toggleDropdown} 
@@ -81,7 +84,8 @@ const SelectOneListBox = ({
             left: leftsize + 5 + '%',
           }}
         >
-          {selectedValue ? item.find(opt => opt.value === selectedValue)?.label : placeholder}
+          <div style={{display:'block'}}> {selectedValue ? item.find(opt => opt.value === selectedValue)?.label : placeholder}</div>
+         
           <span className={`arrow ${isDropdownOpen ? 'up' : 'down'}`} />
         </div>
 
