@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../uicomponents/uicomponentscss/select.css';
 import Service from '../../services/servicedemo';
 
@@ -21,6 +21,8 @@ const SelectOneListBox = ({
   const [selectedValue, setSelectedValue] = useState(''); // Seçili değer
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown'un açık olup olmadığını kontrol eder
   const [item, setItem] = useState([]);
+  
+  const selectBoxRef = useRef(null); // Select kutusuna referans
 
   var divLeftSize = left;
 
@@ -57,14 +59,27 @@ const SelectOneListBox = ({
     fetchData(); // Veri getirme fonksiyonunu çağırıyoruz
   }, []);
 
+  // Select kutusunun dışına tıklandığında dropdown'u kapatma
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectBoxRef.current && !selectBoxRef.current.contains(event.target)) {
+        setIsDropdownOpen(false); // Dropdown'u kapat
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    
     <div style={{
       width: '100%',
       display: 'flex',
       alignItems: 'center',
       marginLeft: `${divLeftSize}%`
-    }}>
+    }} ref={selectBoxRef}> {/* Burada ref kullanıyoruz */}
       {/* Label section */}
       <div style={{
         minWidth: '80px',
@@ -140,7 +155,6 @@ const SelectOneListBox = ({
         )}
       </div>
     </div>
-    
   );
 };
 

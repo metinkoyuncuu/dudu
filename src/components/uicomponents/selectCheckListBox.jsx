@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../uicomponents/uicomponentscss/select.css';
 import Service from '../../services/servicedemo';
 
@@ -21,6 +21,7 @@ const SelectCheckListBox = ({
   const [selectedValues, setSelectedValues] = useState([]); // Çoklu seçim için seçili değerler
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown'un açık olup olmadığını kontrol eder
   const [item, setItem] = useState([]);
+  const dropdownRef = useRef(null); // Dropdown'u referans almak için kullanılır
 
   var leftsize = 0;
   var divLeftSize = left;
@@ -81,6 +82,26 @@ const SelectCheckListBox = ({
     fetchData(); // Veri getirme fonksiyonunu çağırıyoruz
   }, []);
 
+  // Dropdown dışına tıklanıldığında kapatmayı sağlamak için event listener
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false); // Eğer tıklanan yer dropdown dışında ise dropdown'u kapat
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup on component unmount
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   return (
     <div style={{
       width: '100%',
@@ -110,7 +131,7 @@ const SelectCheckListBox = ({
         )}
       </div>
 
-      <div className="select-container" style={{ width: width || '100%' }}>
+      <div ref={dropdownRef} className="select-container" style={{ width: width || '100%' }}>
         <div
           className={`select-box ${isDropdownOpen ? 'activex' : ''}`}
           onClick={toggleDropdown}
