@@ -4,22 +4,28 @@ import './App.css';
 import SelectDemo from './components/select/SelectDemo';
 import RadioDemo from './components/radio/radioDemo';
 import FileDemo from './components/file/fileDemo';
-import 'react-select-search/style.css'
-import  Checkbox  from "react-woodpecker";
 
 import GridDemo from './components/Agtstrap/GridDemo';
+import Toastr from './components/uicomponents/toastr/toastr';
+import ToastrDemo from './components/uicomponents/toastr/ToastrDemo';
+import { ToastrProvider } from './components/uicomponents/toastr/ToastrContext';
 function App() {
-  const [checke,setChecke] = useState(false);
-
-  const x = ()=>{
-    console.log(checke);
-    setChecke(!checke)
-  }
 
   return (
+   
+
+    
     <div className="App">
-      <GridDemo/>
-      <SelectDemo />
+      <Toastr position="top-right" duration={5000} />
+      <ToastrDemo/>
+      {/* kullanım toastrdemo içersinde kolayca */}
+
+
+
+      
+       {/* <GridDemo/> */}
+      {/* <SelectDemo />  */}
+    
 
 
       {/* <Checkbox
@@ -37,6 +43,7 @@ function App() {
       <RadioDemo/>
       <FileDemo/> */}
     </div>
+    
   );
 }
 
