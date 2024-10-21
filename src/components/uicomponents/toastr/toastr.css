@@ -1,0 +1,93 @@
+.toastr-container {
+  position: fixed;
+  z-index: 9999;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sağ üst köşe */
+.toastr-container.top-right {
+  top: 20px;
+  right: 20px;
+}
+
+/* Sağ alt köşe */
+.toastr-container.bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Sol üst köşe */
+.toastr-container.top-left {
+  top: 20px;
+  left: 20px;
+}
+
+/* Sol alt köşe */
+.toastr-container.bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+
+.toastr {
+  background-color: #333; /* Varsayılan renk */
+  color: white;
+  border-radius: 5px;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tür Bazlı Stiller */
+.toastr-success {
+  background-color: #28a745; /* Success rengi (yeşil) */
+}
+
+.toastr-error {
+  background-color: #dc3545; /* Error rengi (kırmızı) */
+}
+
+.toastr-info {
+  background-color: #17a2b8; /* Info rengi (turkuaz) */
+}
+
+.toastr-warning {
+  background-color: #ffc107; /* Warning rengi (sarı) */
+}
+
+.toastr-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.toastr-message {
+  font-size: 14px;
+  margin: 0;
+}
+
+.toastr-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+}
