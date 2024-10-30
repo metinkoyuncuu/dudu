@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../uicomponents/uicomponentscss/select.css';
 import Service from '../../services/servicedemo';
+import axios from 'axios';
 
 const SelectOneListBox = ({
   labeltext,
@@ -15,55 +16,78 @@ const SelectOneListBox = ({
   isSearchable,
   left = 0,
   hardInput = false,
-  reqGet
+  reqGet,
+  dset // API endpoint
 }) => {
-  const [searchTerm, setSearchTerm] = useState(''); // Arama terimi
-  const [selectedValue, setSelectedValue] = useState(''); // Seçili değer
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown'un açık olup olmadığını kontrol eder
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedValue, setSelectedValue] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [item, setItem] = useState([]);
   
-  const selectBoxRef = useRef(null); // Select kutusuna referans
+  const selectBoxRef = useRef(null);
+  const divLeftSize = left;
 
-  var divLeftSize = left;
-
-  // Arama terimi güncellendiğinde tetiklenen fonksiyon
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
   const handleSelectChange = (e) => {
-    setSelectedValue(e.target.value); // Seçili değeri güncelle
-    setIsDropdownOpen(false); // Seçim yapıldıktan sonra listeyi kapat
-    onChange(e.target.value); // Üst bileşene değeri bildir
+    setSelectedValue(e.target.value);
+    setIsDropdownOpen(false);
+    onChange(e.target.value);
   };
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen); // Dropdown'u açıp kapama
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Filtrelenen seçenekler
   const filteredOptions = item?.filter(option =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const fetchData = async () => {
     try {
-      const res = await Service.get(reqGet); // Burada reqGet fonksiyonunu çalıştırın
-      setItem(res || []); // Gelen değeri setItem ile güncelleyin
+      const res = await Service.get(reqGet);
+      setItem(res || []);
+      console.log('res : ', res);
+      // Fetch the default value after successfully fetching items
+      fetchDefaultValue(res || []); // Pass fetched items to fetchDefaultValue
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  useEffect(() => {
-    fetchData(); // Veri getirme fonksiyonunu çağırıyoruz
-  }, []);
+  const fetchDefaultValue = async (fetchedItems) => {
+    try {
+      const res = await Service.get(dset);
+      const defaultValue = typeof res === 'string' ? res : res.data;
+     
+      if (fetchedItems.length > 0) {
+        console.log('Available options:', fetchedItems);
+        const foundOption = fetchedItems.find(option => {
+          return option.value === defaultValue;
+        });
+  
+        if (foundOption) {
+          setSelectedValue(foundOption.value);
+          onChange(foundOption.value);
+        } else {
+          console.log('No matching option found for default value:', defaultValue);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching default value:', error);
+    }
+  };
 
-  // Select kutusunun dışına tıklandığında dropdown'u kapatma
+  useEffect(() => {
+    fetchData();
+  }, [reqGet]); // Trigger fetchData when reqGet changes
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (selectBoxRef.current && !selectBoxRef.current.contains(event.target)) {
-        setIsDropdownOpen(false); // Dropdown'u kapat
+        setIsDropdownOpen(false);
       }
     };
 
@@ -79,8 +103,7 @@ const SelectOneListBox = ({
       display: 'flex',
       alignItems: 'center',
       marginLeft: `${divLeftSize}%`
-    }} ref={selectBoxRef}> {/* Burada ref kullanıyoruz */}
-      {/* Label section */}
+    }} ref={selectBoxRef}>
       <div style={{
         minWidth: '80px',
         marginRight: '10px',
@@ -89,20 +112,19 @@ const SelectOneListBox = ({
         <label style={{
           fontSize: '14px',
           lineHeight: '1.5',
-          display: 'block' // Make sure the label is block level
+          display: 'block'
         }}>
           {labeltext}
         </label>
         {hardInput && (
           <span style={{
             color: 'red',
-            marginLeft: '3px', // Small space between the label and *
+            marginLeft: '3px',
             lineHeight: '1.5'
           }}>*</span>
         )}
       </div>
 
-      {/* Select box container */}
       <div className="select-container" style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
         <div
           className={`select-box ${isDropdownOpen ? 'activex' : ''}`}
@@ -112,7 +134,7 @@ const SelectOneListBox = ({
             borderColor: borderColor || 'green',
             borderWidth: borderWidth || '1px',
             padding: padding || '4px',
-            width: width || '10%', // Adjust this to fit your layout
+            width: width || '10%',
             maxWidth: width || '10%',
             minWidth: '3%',
             cursor: 'pointer',
@@ -122,7 +144,9 @@ const SelectOneListBox = ({
           }}
         >
           <div style={{ flexGrow: 1 }}>
-            {selectedValue ? item.find(opt => opt.value === selectedValue)?.label : placeholder}
+            {selectedValue
+              ? item.find(opt => opt.value === selectedValue)?.label || placeholder
+              : placeholder}
           </div>
           <span className={`arrow ${isDropdownOpen ? 'up' : 'down'}`} />
         </div>

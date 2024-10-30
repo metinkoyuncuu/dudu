@@ -1,7 +1,7 @@
 import React from 'react';
 import SelectOneListBox from '../uicomponents/selectOneListBox';
 import SelectCheckListBox from '../uicomponents/selectCheckListBox';
-
+import InputText from '../uicomponents/inputText.jsx';
 
 
 //  const options = [
@@ -49,6 +49,7 @@ function SelectDemo() {
         borderColor={'green'}
         hardInput={true}
         isSearchable={true}  
+        dset={'/Login/stringDeger'}
       /> 
 
 { <SelectCheckListBox
@@ -62,8 +63,14 @@ function SelectDemo() {
         borderColor={'green'} 
         hardInput={true} 
         isSearchable={true} 
+        dset={'/Login/stringDeger'}
       /> 
       }
+
+  <InputText
+                label="Atakan"
+                id="username1"
+            />
     
       </>
     )

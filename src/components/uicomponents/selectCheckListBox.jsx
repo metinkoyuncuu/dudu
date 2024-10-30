@@ -15,78 +15,79 @@ const SelectCheckListBox = ({
   isSearchable,
   left = 0,
   hardInput = false,
-  reqGet
+  reqGet,
+  dset // New prop to get default selected values
 }) => {
-  const [searchTerm, setSearchTerm] = useState(''); // Arama terimi
-  const [selectedValues, setSelectedValues] = useState([]); // Çoklu seçim için seçili değerler
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown'un açık olup olmadığını kontrol eder
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedValues, setSelectedValues] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [item, setItem] = useState([]);
-  const dropdownRef = useRef(null); // Dropdown'u referans almak için kullanılır
+  const dropdownRef = useRef(null);
 
-  var leftsize = 0;
-  var divLeftSize = left;
+  const divLeftSize = left;
 
-  // Arama terimi güncellendiğinde tetiklenen fonksiyon
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // Seçim değiştirildiğinde çağrılan fonksiyon
   const handleSelectChange = (option) => {
-    console.log('Selected option:', option); // Seçilen opsiyonu yazdır
-
-    // Option kontrolü
     if (!option || !option.value) {
       console.error('Invalid option or undefined value:', option);
-
-      return; // Option yoksa veya value undefined ise işlem yapma
+      return;
     }
 
     const selected = selectedValues.includes(option.value);
+    const updatedValues = selected
+      ? selectedValues.filter(val => val !== option.value) // Remove if already selected
+      : [...selectedValues, option.value]; // Add if not selected
 
-    let updatedValues;
-
-    if (selected) {
-      updatedValues = selectedValues.filter(val => val !== option.value); // Seçiliyse çıkar
-
-    } else {
-      updatedValues = [...selectedValues, option.value]; // Seçili değilse ekle
-
-    }
-
-    setSelectedValues(updatedValues); // Güncelle
-
-    onChange(updatedValues); // Üst bileşene güncel değerleri bildir
-
+    setSelectedValues(updatedValues);
+    onChange(updatedValues);
   };
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen); // Dropdown'u açıp kapama
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // Filtrelenen seçenekler
   const filteredOptions = item?.filter(option =>
     option && option.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const fetchData = async () => {
     try {
-      const res = await Service.get(reqGet); // Burada reqGet fonksiyonunu çalıştırın
-      setItem(res || []); // Gelen değeri setItem ile güncelleyin
+      const res = await Service.get(reqGet);
+      setItem(res || []);
+      fetchDefaultValue(res || []); // Fetch default values after setting items
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  useEffect(() => {
-    fetchData(); // Veri getirme fonksiyonunu çağırıyoruz
-  }, []);
+  const fetchDefaultValue = async (fetchedItems) => {
+    try {
+      const res = await Service.get(dset);
+      const defaultValues = typeof res === 'string' ? [res] : res.data; // Ensure it's an array
 
-  // Dropdown dışına tıklanıldığında kapatmayı sağlamak için event listener
+      // Update selected values based on fetched default values
+      const validDefaults = defaultValues.filter(defaultValue => 
+        fetchedItems.some(option => option.value === defaultValue)
+      );
+
+      setSelectedValues(validDefaults);
+      onChange(validDefaults);
+    } catch (error) {
+      console.error('Error fetching default values:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [reqGet]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false); // Eğer tıklanan yer dropdown dışında ise dropdown'u kapat
+        setIsDropdownOpen(false);
       }
     };
 
@@ -96,7 +97,6 @@ const SelectCheckListBox = ({
       document.removeEventListener('mousedown', handleClickOutside);
     }
 
-    // Cleanup on component unmount
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -109,7 +109,6 @@ const SelectCheckListBox = ({
       alignItems: 'center',
       marginLeft: `${divLeftSize}%`
     }}>
-      {/* Label section */}
       <div style={{
         minWidth: '80px',
         marginRight: '10px',
@@ -118,14 +117,14 @@ const SelectCheckListBox = ({
         <label style={{
           fontSize: '14px',
           lineHeight: '1.5',
-          display: 'block' // Make sure the label is block level
+          display: 'block'
         }}>
           {labeltext}
         </label>
         {hardInput && (
           <span style={{
             color: 'red',
-            marginLeft: '3px', // Small space between the label and *
+            marginLeft: '3px',
             lineHeight: '1.5'
           }}>*</span>
         )}
@@ -140,7 +139,7 @@ const SelectCheckListBox = ({
             borderColor: borderColor || 'green',
             borderWidth: borderWidth || '1px',
             padding: padding || '4px',
-            width: width || '31%', // Layout için ayarlayın
+            width: width || '31%',
             maxWidth: width || '31%',
             minWidth: '3%',
             cursor: 'pointer',
@@ -150,12 +149,11 @@ const SelectCheckListBox = ({
           }}
         >
           <div style={{ flexGrow: 1 }}>
-            {/* Seçilen değerler varsa virgülle ayırarak göster */}
             {selectedValues.length > 0
               ? selectedValues
-                .map(val => item.find(opt => opt?.value === val)?.label) // Değerin label'ını bul
-                .filter(label => label) // Null veya undefined olanları filtrele
-                .join(', ') // Virgülle ayırarak birleştir
+                .map(val => item.find(opt => opt?.value === val)?.label)
+                .filter(label => label)
+                .join(', ')
               : placeholder}
           </div>
           <span className={`arrow ${isDropdownOpen ? 'up' : 'down'}`} />
@@ -176,10 +174,10 @@ const SelectCheckListBox = ({
 
             <ul className="dropdown-list" style={{ width: '100%' }}>
               {filteredOptions?.map((option, index) => (
-                option?.value && option?.label ? ( // Hem value hem label var mı kontrol ediyoruz
+                option?.value && option?.label ? (
                   <li
                     key={index}
-                    onClick={() => handleSelectChange(option)} // Seçim işlemi
+                    onClick={() => handleSelectChange(option)}
                     className={`dropdown-item ${selectedValues.includes(option.value) ? 'selected' : ''}`}
                   >
                     <input
