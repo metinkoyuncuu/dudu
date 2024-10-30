@@ -3,25 +3,18 @@ import SelectOneListBox from '../uicomponents/selectOneListBox';
 import SelectCheckListBox from '../uicomponents/selectCheckListBox';
 import InputText from '../uicomponents/inputText.jsx';
 
-
-//  const options = [
-//     { value: 'option1', label: 'Option 1' },
-//     { value: 'option2', label: 'Option 2' },
-//     { value: 'option3', label: 'Option 3' }
-//   ];//Data bu şekilde gelmeli
-
 function SelectDemo() {
- 
 
-/* Simple example */
+
+  /* Simple example */
   const handleSelectChange = (event) => {
     console.log('Selected value:', event);
   };
 
-//soldan sağdan
-    return (
-        <>
-        {/* <SelectOneListBox 
+  //soldan sağdan
+  return (
+    <>
+      {/* <SelectOneListBox 
         reqGet={'/UHaslib/brans'}
         name={'city'}
         onChange={handleSelectChange} 
@@ -36,44 +29,47 @@ function SelectDemo() {
         isSearchable={true}  
       /> */}
 
-<SelectOneListBox 
+      <SelectOneListBox
         reqGet={'/UHaslib/cinsiyet'}
         name={'cinsiyet'}
-        onChange={handleSelectChange} 
-        labeltext ={'Branş'}
+        onChange={handleSelectChange}
+        labeltext={'Branş'}
         placeholder="Select "
         backgroundColor={'white'}
         // padding={'3%'}
-        width={'10%'}        
+        width={'10%'}
         //borderWidth={'9px'}
         borderColor={'green'}
         hardInput={true}
-        isSearchable={true}  
+        isSearchable={true}
         dset={'/Login/stringDeger'}
-      /> 
+      />
 
-{ <SelectCheckListBox
-        reqGet={'/UHaslib/cinsiyet'} 
-        name={'cinsiyetsss'} 
-        onChange={handleSelectChange} 
+      {<SelectCheckListBox
+        reqGet={'/UHaslib/cinsiyet'}
+        name={'cinsiyetsss'}
+        onChange={handleSelectChange}
         labeltext={'BranşsAtakankılabaz'}
         placeholder="Select"
         backgroundColor={'white'}
-        width={'31%'} 
-        borderColor={'green'} 
-        hardInput={true} 
-        isSearchable={true} 
+        width={'31%'}
+        borderColor={'green'}
+        hardInput={true}
+        isSearchable={true}
         dset={'/Login/stringDeger'}
-      /> 
+      />
       }
 
-  <InputText
-                label="Atakan"
-                id="username1"
-            />
-    
-      </>
-    )
+      <InputText
+        label="Atakan"
+        id="username1"
+        required={true}
+        dset={'/Login/stringDeger'}
+        visible={true}
+      />
+
+    </>
+  )
 }
 
 export default SelectDemo
