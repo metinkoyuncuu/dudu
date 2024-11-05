@@ -8,13 +8,14 @@ function FormDemo() {
                     title={'Bir Adet Panel Başlığı'} 
                     // backgroundImage={'https://m.media-amazon.com/images/I/11ru70B3RzL._AC_UF1000,1000_QL80_.jpg'} 
                     backgroundColor='blue'
-                    width={'50'}
+                    width={'100'}
                     overlayOpacity={0.2}
+                    
                     >
-                <label>
+                <div className='d-block w-10 fs-2 h-auto'>
                     Bağlı Olduğu Şirket Müşteri No:
                     <input type="text" />
-                </label>
+                </div>
                 <label>
                     Çalışan Adı:
                     <input type="text" />
