@@ -3,11 +3,13 @@ import Form from './form'
 
 function FormDemo() {
     return (
-        <div className='w-80'>
+      
             <Form 
                     title={'Bir Adet Panel Başlığı'} 
                     // backgroundImage={'https://m.media-amazon.com/images/I/11ru70B3RzL._AC_UF1000,1000_QL80_.jpg'} 
                     backgroundColor='blue'
+                    width={'50'}
+                    overlayOpacity={0.2}
                     >
                 <label>
                     Bağlı Olduğu Şirket Müşteri No:
@@ -24,7 +26,7 @@ function FormDemo() {
                 <button>Arama</button>
                 <button>Temizle</button>
             </Form>
-        </div>
+   
     )
 }
 

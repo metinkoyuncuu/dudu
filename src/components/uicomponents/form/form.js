@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import './form.css';
 
-export default function Form({ title, children, backgroundImage, backgroundColor, overlayOpacity = 0.5 }) {
+export default function Form({ title, children, backgroundImage, backgroundColor, overlayOpacity = 0.5, width }) {
   const [isOpen, setIsOpen] = useState(true);
 
   const togglePanel = () => {
     setIsOpen(!isOpen);
   };
-
 
   const overlayStyle = backgroundImage
     ? { backgroundImage: `url(${backgroundImage})`, opacity: overlayOpacity }
@@ -15,8 +14,11 @@ export default function Form({ title, children, backgroundImage, backgroundColor
     ? { backgroundColor: backgroundColor, opacity: overlayOpacity }
     : {};
 
+
+    const panelClassName = `form-panel ${width ? `w-${width}` : 'w-100'}`;
+
   return (
-    <div className="form-panel">
+    <div className={panelClassName}>
       {(backgroundImage || backgroundColor) && (
         <div className="form-panel-overlay" style={overlayStyle}></div>
       )}
