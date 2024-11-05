@@ -8,7 +8,9 @@ import FileDemo from './components/file/fileDemo';
 import GridDemo from './components/Agtstrap/GridDemo';
 import Toastr from './components/uicomponents/toastr/toastr';
 import ToastrDemo from './components/uicomponents/toastr/ToastrDemo';
-import { ToastrProvider } from './components/uicomponents/toastr/ToastrContext';
+import { ToastrProvider } from './components/uicomponents/toastr/ToastrContext'
+import {DateTimePicker} from 'react-woodpecker'
+import FormDemo from './components/uicomponents/form/formDemo';
 function App() {
 
   return (
@@ -20,8 +22,13 @@ function App() {
       <ToastrDemo/>
       {/* kullanım toastrdemo içersinde kolayca */}
 
-
-
+    <div>
+    {/* <DateTimePicker 
+        mode="datetime" 
+      
+      /> */}
+    </div>
+     
 
        {/* <GridDemo/> */}
       { <SelectDemo id ={5} />  }
@@ -42,6 +49,8 @@ function App() {
       <Select/>
       <RadioDemo/>
       <FileDemo/> */}
+
+      <FormDemo/>
     </div>
     
   );
