@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import '../uicomponents/uicomponentscss/select.css';
-import Service from '../../services/servicedemo';
+import './select.css';
+import Service from '../../../services/servicedemo';
 
 const SelectCheckListBox = ({
   id,

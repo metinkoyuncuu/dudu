@@ -1,7 +1,7 @@
 import React from 'react';
-import SelectOneListBox from '../uicomponents/selectOneListBox';
-import SelectCheckListBox from '../uicomponents/selectCheckListBox';
-import InputText from '../uicomponents/inputText.jsx';
+import SelectOneListBox from '../uicomponents/selectListBox/selectOneListBox';
+import SelectCheckListBox from '../uicomponents/selectListBox/selectCheckListBox';
+import InputText from '../uicomponents/inputText/inputText';
 
 function SelectDemo() {
 

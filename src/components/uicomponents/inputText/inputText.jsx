@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import '../uicomponents/uicomponentscss/inputText.css';
-import Service from '../../services/servicedemo'; // Service dosyasının doğru yolunu ayarlayın
+import './inputText.css';
+import Service from '../../../services/servicedemo';
 
 const InputText = ({
     label,
