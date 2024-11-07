@@ -42,7 +42,7 @@ function SelectDemo() {
         borderColor={'green'}
         hardInput={true}
         isSearchable={true}
-        dset={'/Login/stringDeger'}
+        defaultValue ={'H'}
       />
 
       {<SelectCheckListBox
@@ -64,8 +64,9 @@ function SelectDemo() {
         label="Atakan"
         id="username1"
         required={true}
-        dset={'/Login/stringDeger'}
+        dset={'cinsiyet'}
         visible={true}
+        defaultValue ={'K'}
       />
 
     </>

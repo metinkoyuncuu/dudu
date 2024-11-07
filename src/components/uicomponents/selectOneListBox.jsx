@@ -17,7 +17,8 @@ const SelectOneListBox = ({
   left = 0,
   hardInput = false,
   reqGet,
-  dset // API endpoint
+  dset,
+  defaultValue = null
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
@@ -59,8 +60,12 @@ const SelectOneListBox = ({
 
   const fetchDefaultValue = async (fetchedItems) => {
     try {
-      const res = await Service.get(dset);
-      const defaultValue = typeof res === 'string' ? res : res.data;
+      // const res = await Service.get(dset);
+      // res.data = defaultValue ;
+      // console.log('res' , res);
+      // console.log('defaultValue', defaultValue);
+
+      // const defaultValue = typeof res === 'string' ? res : res.data;
      
       if (fetchedItems.length > 0) {
         console.log('Available options:', fetchedItems);
