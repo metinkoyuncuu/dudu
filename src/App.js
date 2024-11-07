@@ -9,7 +9,7 @@ import Toastr from './components/uicomponents/toastr/toastr';
 import ToastrDemo from './components/uicomponents/toastr/ToastrDemo';
 import { ToastrProvider } from './components/uicomponents/toastr/ToastrContext'
 import {DateTimePicker} from 'react-woodpecker'
-import FormDemo from './components/uicomponents/form/formDemo';
+import PanelGridDemo from './components/uicomponents/panelGrid/panelGridDemo'; 
 function App() {
 
   return (
@@ -49,7 +49,7 @@ function App() {
       <RadioDemo/>
       <FileDemo/> */}
 
-      <FormDemo/>
+      <PanelGridDemo/>
     </div>
     
   );

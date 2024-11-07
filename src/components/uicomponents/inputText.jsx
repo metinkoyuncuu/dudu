@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import '../uicomponents/uicomponentscss/inputText.css';
 import Service from '../../services/servicedemo'; // Service dosyasının doğru yolunu ayarlayın
 
-const InputText = ({ 
-    label, 
-    id, 
-    placeholder, 
-    helperText, 
-    required, 
-    dset, 
-    readOnly, 
+const InputText = ({
+    label,
+    id,
+    placeholder,
+    helperText,
+    required,
+    dset,
+    readOnly,
     visible = true // Set default value for visible prop
 }) => {
     const [data, setData] = useState(''); // API'den çekilen veriyi tutmak için state
@@ -18,9 +18,9 @@ const InputText = ({
         const fetchData = async () => {
             try {
                 const res = await Service.get(dset);
-                const defaultValues = typeof res === 'string' ? res : res.data; 
+                const defaultValues = typeof res === 'string' ? res : res.data;
                 console.log('defaultValues : ', defaultValues);
-                setData(defaultValues);                
+                setData(defaultValues);
             } catch (error) {
                 console.error("API'den veri çekilirken bir hata oluştu:", error);
             }
@@ -37,9 +37,18 @@ const InputText = ({
     if (!visible) return null;
 
     return (
-        <div className="field">
-            <label htmlFor={id} className="block label">
-                {label} : {required && <span style={{ color: 'red' }}>*</span>} {/* Kırmızı yıldız ekleyin */}
+        <div className="field" style={{ display: 'flex', alignItems: 'center' }}>
+            <label
+                htmlFor={id}
+                className="block label"
+                style={{
+                    width: '90px',
+                    display: 'inline-block',
+                    wordBreak: 'break-word',   // Eğer label çok uzun olursa, kelime kesilecektir.
+                    maxWidth: '90%',           // Genişliği %90 yaparak, label'in kutuyu sarmasını engeller
+                }}
+            >
+                {label} : {required && <span style={{ color: 'red' }}>*</span>}
             </label>
             <input
                 type="text"
@@ -50,6 +59,7 @@ const InputText = ({
                 value={data} // Eğer veri geldiyse, input'un değerini ayarla
                 onChange={handleChange} // Kullanıcı girişi için onChange ekle
                 readOnly={readOnly} // readOnly prop'u burada kullanılıyor
+                style={{ width: '140px' }}
             />
             {helperText && <small className="block">{helperText}</small>}
         </div>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../uicomponents/uicomponentscss/select.css';
 import Service from '../../services/servicedemo';
-import axios from 'axios';
 
 const SelectOneListBox = ({
+  id,
   labeltext,
   name,
   onChange,
@@ -18,13 +18,14 @@ const SelectOneListBox = ({
   hardInput = false,
   reqGet,
   dset,
-  defaultValue = null
+  defaultValue = null,
+  required
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [item, setItem] = useState([]);
-  
+
   const selectBoxRef = useRef(null);
   const divLeftSize = left;
 
@@ -51,8 +52,7 @@ const SelectOneListBox = ({
       const res = await Service.get(reqGet);
       setItem(res || []);
       console.log('res : ', res);
-      // Fetch the default value after successfully fetching items
-      fetchDefaultValue(res || []); // Pass fetched items to fetchDefaultValue
+      fetchDefaultValue(res || []);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -60,19 +60,11 @@ const SelectOneListBox = ({
 
   const fetchDefaultValue = async (fetchedItems) => {
     try {
-      // const res = await Service.get(dset);
-      // res.data = defaultValue ;
-      // console.log('res' , res);
-      // console.log('defaultValue', defaultValue);
-
-      // const defaultValue = typeof res === 'string' ? res : res.data;
-     
       if (fetchedItems.length > 0) {
-        console.log('Available options:', fetchedItems);
         const foundOption = fetchedItems.find(option => {
           return option.value === defaultValue;
         });
-  
+
         if (foundOption) {
           setSelectedValue(foundOption.value);
           onChange(foundOption.value);
@@ -87,7 +79,7 @@ const SelectOneListBox = ({
 
   useEffect(() => {
     fetchData();
-  }, [reqGet]); // Trigger fetchData when reqGet changes
+  }, [reqGet]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -103,85 +95,92 @@ const SelectOneListBox = ({
   }, []);
 
   return (
-    <div style={{
-      width: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      marginLeft: `${divLeftSize}%`
-    }} ref={selectBoxRef}>
+    <div className="field" style={{ display: 'flex', alignItems: 'center' }}>
       <div style={{
-        minWidth: '80px',
-        marginRight: '10px',
-        textAlign: 'left'
-      }}>
-        <label style={{
-          fontSize: '14px',
-          lineHeight: '1.5',
-          display: 'block'
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center', // Center items vertically
+        marginLeft: `${divLeftSize}%`
+      }} ref={selectBoxRef}>
+        <div style={{
+          minWidth: '80px',
+          marginRight: '10px',
+          textAlign: 'left',
+          display: 'flex',
+          alignItems: 'center', // Align label vertically with select-box
         }}>
-          {labeltext}
-        </label>
-        {hardInput && (
-          <span style={{
-            color: 'red',
-            marginLeft: '3px',
-            lineHeight: '1.5'
-          }}>*</span>
-        )}
-      </div>
-
-      <div className="select-container" style={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-        <div
-          className={`select-box ${isDropdownOpen ? 'activex' : ''}`}
-          onClick={toggleDropdown}
-          style={{
-            backgroundColor: backgroundColor || '#fff',
-            borderColor: borderColor || 'green',
-            borderWidth: borderWidth || '1px',
-            padding: padding || '4px',
-            width: width || '10%',
-            maxWidth: width || '10%',
-            minWidth: '3%',
-            cursor: 'pointer',
-            textAlign: 'left',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <div style={{ flexGrow: 1 }}>
-            {selectedValue
-              ? item.find(opt => opt.value === selectedValue)?.label || placeholder
-              : placeholder}
-          </div>
-          <span className={`arrow ${isDropdownOpen ? 'up' : 'down'}`} />
+          <label
+            htmlFor={id}
+            className="block label"
+            style={{ width: '120px', 
+              display: 'inline-block',
+              wordWrap: 'break-word',   // Uzun metinleri alt satıra kırar
+              whiteSpace: 'normal',    // Satır kaydırmaya izin verir 
+              maxWidth: '100%', 
+              wordBreak: 'break-word',
+              }} // Add width and inline-block style
+          >
+            {labeltext} : {required && <span style={{ color: 'red' }}>*</span>}
+          </label>
         </div>
 
-        {isDropdownOpen && (
-          <div className="dropdown" style={{ width: '15%' }}>
-            {isSearchable && (
-              <input
-                type="text"
-                placeholder="Ara..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="search-input"
-                autoFocus
-              />
-            )}
-
-            <ul className="dropdown-list" style={{ width: '100%' }}>
-              {filteredOptions?.map((option, index) => (
-                <li
-                  key={index}
-                  onClick={() => handleSelectChange({ target: { value: option.value } })}
-                  className="dropdown-item"
-                >
-                  {option.label}
-                </li>
-              ))}
-            </ul>
+        <div className="select-container" style={{
+          flexGrow: 1,
+          display: 'flex',
+          alignItems: 'center', // Align select box vertically
+        }}>
+          <div
+            className={`select-box ${isDropdownOpen ? 'activex' : ''}`}
+            onClick={toggleDropdown}
+            style={{
+              backgroundColor: backgroundColor || '#fff',
+              borderColor: borderColor || 'green',
+              borderWidth: borderWidth || '1px',
+              padding: padding || '4px',
+              width: width || '10%',
+              maxWidth: width || '10%',
+              minWidth: '3%',
+              cursor: 'pointer',
+              textAlign: 'left',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <div style={{ flexGrow: 1 }}>
+              {selectedValue
+                ? item.find(opt => opt.value === selectedValue)?.label || placeholder
+                : placeholder}
+            </div>
+            <span className={`arrow ${isDropdownOpen ? 'up' : 'down'}`} />
           </div>
-        )}
+
+          {isDropdownOpen && (
+            <div className="dropdown" style={{ width: '15%' }}>
+              {isSearchable && (
+                <input
+                  type="text"
+                  placeholder="Ara..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="search-input"
+                  autoFocus
+                />
+              )}
+
+              <ul className="dropdown-list" style={{ width: '100%' }}>
+                {filteredOptions?.map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSelectChange({ target: { value: option.value } })}
+                    className="dropdown-item"
+                  >
+                    {option.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
