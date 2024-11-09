@@ -2,6 +2,7 @@ import React from 'react';
 import SelectOneListBox from '../uicomponents/selectListBox/selectOneListBox';
 import SelectCheckListBox from '../uicomponents/selectListBox/selectCheckListBox';
 import InputText from '../uicomponents/inputText/inputText';
+import Form from '../uicomponents/form';
 
 function SelectDemo() {
 
@@ -13,7 +14,7 @@ function SelectDemo() {
 
   //soldan sağdan
   return (
-    <>
+   <Form>
       {/* <SelectOneListBox 
         reqGet={'/UHaslib/brans'}
         name={'city'}
@@ -45,7 +46,7 @@ function SelectDemo() {
         defaultValue ={'H'}
       />
 
-      {<SelectCheckListBox
+      <SelectCheckListBox
         reqGet={'/UHaslib/cinsiyet'}
         name={'cinsiyetsss'}
         onChange={handleSelectChange}
@@ -58,7 +59,7 @@ function SelectDemo() {
         isSearchable={true}
         dset={'/Login/stringDeger'}
       />
-      }
+      
 
       <InputText
         label="Atakan"
@@ -69,7 +70,7 @@ function SelectDemo() {
         defaultValue ={'K'}
       />
 
-    </>
+  </Form> 
   )
 }
 
