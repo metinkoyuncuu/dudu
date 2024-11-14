@@ -1,12 +1,13 @@
 /* panelGrid.css */
 .panelGrid-panel {
-  position: relative; /* Overlay için gerekli */
+  position: relative;
+  /* Overlay için gerekli */
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: all 0.3s ease-in-out;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .panelGrid-panel-overlay {
@@ -18,16 +19,18 @@
   z-index: 1;
   background-size: cover;
   background-position: center;
-  border-radius: 8px; /* Panelin yuvarlak kenarlarını korur */
+  border-radius: 8px;
+  /* Panelin yuvarlak kenarlarını korur */
 }
 
 .panelGrid-panel-header {
   position: relative;
-  z-index: 2; /* Overlay'in üstünde görünmesi için */
+  z-index: 2;
   display: flex;
   align-items: center;
   padding: 15px;
-  background-color: rgba(247, 249, 252, 0.85); /* Hafif saydam bir arka plan */
+  background-color: rgba(247, 249, 252, 0.85);
+  /* Hafif saydam bir arka plan */
   cursor: pointer;
   font-weight: bold;
   font-size: 1.1em;
@@ -43,6 +46,7 @@
 .panelGrid-panel-header span {
   margin-right: 8px;
   font-size: 1.3em;
+  min-height: 10px;
   transition: transform 0.3s ease;
 }
 
@@ -52,23 +56,19 @@
 
 .panelGrid-panel-content {
   position: relative;
-  z-index: 2; /* Overlay'in üstünde görünmesi için */
+  z-index: 2;
   padding: 20px;
-  transition: max-height 0.5s ease;
-  overflow: hidden; 
+  transition: max-height 0.5s ease, padding 0.5s ease;
+  overflow: hidden;
 }
 
 .hidden {
-  max-height: 500px;
+  height: 0px;
   padding: 0;
 }
 
-.custom-dropdown-panel .p-dropdown-panel {
-  min-width: 100% !important;
-  max-width: 100% !important;
-  z-index: 9999 !important;
-}
-
-.custom-dropdown-panel .p-dropdown {
-  width: 100% !important;
+.panelGrid-panel-header span.toggle-icon {
+  margin-right: 8px;
+  font-size: 1.3em;
+  transition: transform 0.3s ease, color 0.3s ease;
 }

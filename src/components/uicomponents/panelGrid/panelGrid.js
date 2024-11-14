@@ -29,11 +29,12 @@ export default function PanelGrid({
   const gridStyle = {
     display: 'grid',
     gridTemplateColumns: `repeat(${columns}, ${columnWidth}fr)`, // Parametreler doğru şekilde yerleştirildi
-    padding: '4px',  // Cell padding
+    padding: '4px',  
   };
 
   const panelStyle = {
-    height: `${height}px`,  // Dynamically set height
+    height: isOpen ? `${height}px` : '0%',  
+    transition: 'height 0.3s ease', 
   };
 
   return (
