@@ -3,9 +3,11 @@ import PanelGrid from './panelGrid';
 import InputText from '../inputText/inputText';
 import SelectCheckListBox from '../selectListBox/selectCheckListBox';
 import SelectOneListBox from '../selectListBox/selectOneListBox';
+import { useSelectChange } from '../../../context/SelectChangeContext';
 import Form from '../form';
 
 function PanelGridDemo() {
+
     return (
      <Form>
         <PanelGrid
@@ -21,7 +23,7 @@ function PanelGridDemo() {
                 id={"ChecList"}
                 reqGet={'/UHaslib/cinsiyet'}
                 name={'cinsiyetsss'}
-                onChange={"handleSelectChange"}
+                onChange={useSelectChange()}
                 labeltext={'CheckListhandleSelectChange'}
                 placeholder="Seçiniz"
                 backgroundColor={'white'}
@@ -46,7 +48,7 @@ function PanelGridDemo() {
                 id={"ChecList"}
                 reqGet={'/UHaslib/cinsiyet'}
                 name={'cinsiyetsss'}
-                onChange={"handleSelectChange"}
+                onChange={useSelectChange()}
                 labeltext={'CheckListhandleSelectChange'}
                 placeholder="Seçiniz"
                 backgroundColor={'white'}
