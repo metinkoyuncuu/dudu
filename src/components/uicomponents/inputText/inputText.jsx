@@ -43,6 +43,7 @@ const InputText = ({
                 className="block label"
                 style={{
                     width: '90px',
+                    marginRight: label?.length > 10 ? '10px' : '10px',
                     display: 'inline-block',
                     wordBreak: 'break-word',   // Eğer label çok uzun olursa, kelime kesilecektir.
                     maxWidth: '90%',           // Genişliği %90 yaparak, label'in kutuyu sarmasını engeller
