@@ -18,7 +18,8 @@ const SelectCheckListBox = ({
   hardInput = false,
   reqGet,
   dset, // New prop to get default selected values
-  required
+  required,
+  className = "" // Default to an empty string if no class is passed
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedValues, setSelectedValues] = useState([]);
@@ -104,6 +105,8 @@ const SelectCheckListBox = ({
     };
   }, [isDropdownOpen]);
 
+  const finalClassName = `select-checklist-box ${className}`;
+
   return (
     <div className="field" style={{ display: 'flex', alignItems: 'center' }}>
       <div style={{
@@ -114,27 +117,27 @@ const SelectCheckListBox = ({
       }}>
         <div style={{
           minWidth: '80px',
-          marginRight: '12px',
+          marginRight: labeltext?.length > 10 ? '10px' : '10px',
           textAlign: 'left',
           display: 'flex',
           alignItems: 'center', // Align label vertically with select-box
         }}>
           <label 
-                htmlFor={id} 
-                className="block label"
-                style={{ width: '120px', 
-                         display: 'inline-block',
-                         wordWrap: 'break-word',   // Uzun metinleri alt satıra kırar
-                         whiteSpace: 'normal',    // Satır kaydırmaya izin verir 
-                         maxWidth: '100%', 
-                         wordBreak: 'break-word',
-                         }} // Add width and inline-block style
-            >
-                {labeltext} : {required && <span style={{ color: 'red' }}>*</span>}
-            </label>
+            htmlFor={id} 
+            className="block label"
+            style={{ width: '100px', 
+              display: 'inline-block',
+              wordWrap: 'break-word',   // Wrap long texts
+              whiteSpace: 'normal',     // Allow word wrapping
+              maxWidth: '100%', 
+              wordBreak: 'break-word',
+            }}
+          >
+            {labeltext} : {required && <span style={{ color: 'red' }}>*</span>}
+          </label>
         </div>
 
-        <div ref={dropdownRef} className="select-container" style={{ width: width || '100%' }}>
+        <div ref={dropdownRef} className="select-container">
           <div
             className={`select-box ${isDropdownOpen ? 'activex' : ''}`}
             onClick={toggleDropdown}
@@ -143,9 +146,6 @@ const SelectCheckListBox = ({
               borderColor: borderColor || 'green',
               borderWidth: borderWidth || '1px',
               padding: padding || '4px',
-              width: width || '31%',
-              maxWidth: width || '31%',
-              minWidth: '3%',
               cursor: 'pointer',
               textAlign: 'left',
               display: 'flex',
@@ -164,7 +164,7 @@ const SelectCheckListBox = ({
           </div>
 
           {isDropdownOpen && (
-            <div className="dropdown" style={{ width: '46%' }}>
+            <div className="dropdown" style={{ width: '100%' }}>
               {isSearchable && (
                 <input
                   type="text"

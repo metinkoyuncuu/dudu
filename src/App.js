@@ -16,7 +16,7 @@ function App() {
   return (
    
 
-    <SelectChangeProvider> /* veri seti için yapıldı. */
+    <SelectChangeProvider>
         <div className="App">
           <Toastr position="top-right" duration={5000} />
           <ToastrDemo/>

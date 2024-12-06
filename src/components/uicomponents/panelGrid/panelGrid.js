@@ -7,10 +7,10 @@ export default function PanelGrid({
   backgroundImage,
   backgroundColor,
   overlayOpacity = 0.5,
-  width,
+  width, // Varsayılan genişlik 100% olarak ayarlanır
   columns = 6,
   columnWidth = 3,
-  height = 300,  // Default height is 500px, but it can be passed externally
+  height = 200,
 }) {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -18,36 +18,45 @@ export default function PanelGrid({
     setIsOpen(!isOpen);
   };
 
+  // Gelen width değerini yüzde olarak biçimlendir
+  const formattedWidth = `${parseInt(width, 0)}%`; 
+  const formattedGridWidth = `${parseInt(width, 0) + 5}%`; 
+
   const overlayStyle = backgroundImage
     ? { backgroundImage: `url(${backgroundImage})`, opacity: overlayOpacity }
     : backgroundColor
       ? { backgroundColor: backgroundColor, opacity: overlayOpacity }
       : {};
 
-  const panelClassName = `panelGrid-panel ${width ? `w-${width}` : 'w-100'}`;
+  const panelClassName = {
+    height: isOpen ? `${height}px` : '40px', // Açıkken tam yükseklik, kapalıyken başlık kadar
+    overflow: 'hidden', // İçerik taşmasını önler
+    transition: 'height 0.3s ease', // Geçiş animasyonu
+  };
 
   const gridStyle = {
     display: 'grid',
-    gridTemplateColumns: `repeat(${columns}, ${columnWidth}fr)`, // Parametreler doğru şekilde yerleştirildi
-    padding: '4px',  
+    gridTemplateColumns: `repeat(${columns}, 0.21fr)`, // Dinamik kolon düzeni
+    gap: '1rem', // Grid elemanlar arası boşluk
+    padding: '0.5rem', // Formun iç kenar boşluklarını daraltıyoruz
+    width: formattedWidth, // Grid tamamını kaplar
   };
 
-  const panelStyle = {
-    height: isOpen ? `${height}px` : '0%',  
-    transition: 'height 0.3s ease', 
+  const headerStyle = {
+    width: formattedWidth, // Header'ın genişliği
   };
 
   return (
-    <div className={panelClassName} style={panelStyle}>
-      {(backgroundImage || backgroundColor) && (
-        <div className="panelGrid-panel-overlay" style={overlayStyle}></div>
+    <div className="panel-grid" style={{ width: formattedGridWidth }}>
+      <div className="panel-grid-header" onClick={togglePanel} style={headerStyle}>
+        <button className="panel-grid-button">{isOpen ? '–' : '+'}</button>
+        <span className="panel-grid-title">{title}</span>
+      </div>
+      {isOpen && (
+        <form className="panel-grid-form" style={gridStyle}>
+          {children}
+        </form>
       )}
-      <div className="panelGrid-panel-header" onClick={togglePanel}>
-        <span className={isOpen ? '' : 'rotate'}>{isOpen ? '–' : '+'}</span> {title || 'Panel'}
-      </div>
-      <div className={`panelGrid-panel-content ${isOpen ? '' : 'hidden'}`} style={gridStyle}>
-        {children}
-      </div>
     </div>
   );
 }
