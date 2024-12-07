@@ -5,8 +5,9 @@
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
-  width: 200px;  
+  width: 200px;
 }
+
 
 /* Select box */
 .select-box {
@@ -54,10 +55,11 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  max-height: 200px;
+  z-index: 1050;
+  max-height: 300px;
   overflow-y: auto;
 }
+
 
 .search-input {
   width: calc(100% - 24px);

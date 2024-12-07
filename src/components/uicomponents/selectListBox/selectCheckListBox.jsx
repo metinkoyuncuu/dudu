@@ -72,7 +72,7 @@ const SelectCheckListBox = ({
       const defaultValues = typeof res === 'string' ? [res] : res.data; // Ensure it's an array
 
       // Update selected values based on fetched default values
-      const validDefaults = defaultValues.filter(defaultValue => 
+      const validDefaults = defaultValues.filter(defaultValue =>
         fetchedItems.some(option => option.value === defaultValue)
       );
 
@@ -122,14 +122,15 @@ const SelectCheckListBox = ({
           display: 'flex',
           alignItems: 'center', // Align label vertically with select-box
         }}>
-          <label 
-            htmlFor={id} 
+          <label
+            htmlFor={id}
             className="block label"
-            style={{ width: '100px', 
+            style={{
+              width: '100px',
               display: 'inline-block',
               wordWrap: 'break-word',   // Wrap long texts
               whiteSpace: 'normal',     // Allow word wrapping
-              maxWidth: '100%', 
+              maxWidth: '100%',
               wordBreak: 'break-word',
             }}
           >
@@ -164,7 +165,16 @@ const SelectCheckListBox = ({
           </div>
 
           {isDropdownOpen && (
-            <div className="dropdown" style={{ width: '100%' }}>
+            <div className="dropdown"
+              style={{
+                width: '100%',
+                maxHeight: '300px', // Dropdown'un maksimum yüksekliği
+                overflowY: 'auto', // Kaydırma çubuğu ekler
+                position: 'absolute', // Dropdown'un tam görünmesini sağlar
+                zIndex: 999, // Diğer bileşenlerin üstünde görünmesi için
+                backgroundColor: '#fff', // Arka plan görünürlüğü
+                border: '1px solid #ddd' // Dropdown stilini iyileştirir
+              }}>
               {isSearchable && (
                 <input
                   type="text"

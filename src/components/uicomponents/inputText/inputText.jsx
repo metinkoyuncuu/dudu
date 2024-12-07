@@ -46,7 +46,7 @@ const InputText = ({
                     marginRight: label?.length > 10 ? '10px' : '10px',
                     display: 'inline-block',
                     wordBreak: 'break-word',   // Eğer label çok uzun olursa, kelime kesilecektir.
-                    maxWidth: '90%',           // Genişliği %90 yaparak, label'in kutuyu sarmasını engeller
+                    maxWidth: '100%',           // Genişliği %90 yaparak, label'in kutuyu sarmasını engeller
                 }}
             >
                 {label} : {required && <span style={{ color: 'red' }}>*</span>}
@@ -60,7 +60,7 @@ const InputText = ({
                 value={data} // Eğer veri geldiyse, input'un değerini ayarla
                 onChange={handleChange} // Kullanıcı girişi için onChange ekle
                 readOnly={readOnly} // readOnly prop'u burada kullanılıyor
-                style={{ width: '140px' }}
+                style={{ width: '193px' }}
             />
             {helperText && <small className="block">{helperText}</small>}
         </div>

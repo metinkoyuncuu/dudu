@@ -1,6 +1,7 @@
 import React from 'react';
 import PanelGrid from './panelGrid';
 import SelectCheckListBox from '../selectListBox/selectCheckListBox';
+import SelectOneListBox from '../selectListBox/selectOneListBox';
 import { useSelectChange } from '../../../context/SelectChangeContext';
 import InputText from '../inputText/inputText';
 import Form from '../form';
@@ -13,10 +14,27 @@ function PanelGridDemo() {
                 backgroundColor='blue'
                 width={'100'}
                 overlayOpacity={0.2}
-                columns={3}
+                columns={4}
                 columnWidth={0}
-                height={10}
+                height={800}
             >
+
+                <SelectOneListBox
+                    reqGet={'/UHaslib/cinsiyet'}
+                    name={'cinsiyet'}
+                    onChange={useSelectChange()}
+                    labeltext={'Branş'}
+                    placeholder="Select "
+                    backgroundColor={'white'}
+                    // padding={'3%'}
+                    width={'10%'}
+                    //borderWidth={'9px'}
+                    borderColor={'green'}
+                    hardInput={true}
+                    isSearchable={true}
+                    defaultValue={'H'}
+                />
+
                 <SelectCheckListBox
                     id={"ChecList"}
                     reqGet={'/UHaslib/cinsiyet'}
@@ -195,6 +213,7 @@ function PanelGridDemo() {
                     visible={true}
                     defaultValue={'K'}
                 />
+
 
             </PanelGrid>
 

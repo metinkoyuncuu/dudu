@@ -15,28 +15,30 @@ const SelectOneListBox = ({
   padding,
   isSearchable,
   left = 0,
-  hardInput = false,
   reqGet,
-  dset,
-  defaultValue = null,
-  required
+  required,
+  className = "" // Default to an empty string if no class is passed
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [item, setItem] = useState([]);
+  const dropdownRef = useRef(null);
 
-  const selectBoxRef = useRef(null);
   const divLeftSize = left;
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSelectChange = (e) => {
-    setSelectedValue(e.target.value);
-    setIsDropdownOpen(false);
-    onChange(e.target.value);
+  const handleSelectChange = (option) => {
+    if (!option || !option.value) {
+      console.error('Invalid option or undefined value:', option);
+      return;
+    }
+    setSelectedValue(option.value);
+    onChange(option.value);
+    setIsDropdownOpen(false); // Dropdown kapanır
   };
 
   const toggleDropdown = () => {
@@ -44,36 +46,15 @@ const SelectOneListBox = ({
   };
 
   const filteredOptions = item?.filter(option =>
-    option.label.toLowerCase().includes(searchTerm.toLowerCase())
+    option && option.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const fetchData = async () => {
     try {
       const res = await Service.get(reqGet);
       setItem(res || []);
-      console.log('res : ', res);
-      fetchDefaultValue(res || []);
     } catch (error) {
       console.error('Error fetching data:', error);
-    }
-  };
-
-  const fetchDefaultValue = async (fetchedItems) => {
-    try {
-      if (fetchedItems.length > 0) {
-        const foundOption = fetchedItems.find(option => {
-          return option.value === defaultValue;
-        });
-
-        if (foundOption) {
-          setSelectedValue(foundOption.value);
-          onChange(foundOption.value);
-        } else {
-          console.log('No matching option found for default value:', defaultValue);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching default value:', error);
     }
   };
 
@@ -83,52 +64,56 @@ const SelectOneListBox = ({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (selectBoxRef.current && !selectBoxRef.current.contains(event.target)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [isDropdownOpen]);
+
+  const finalClassName = `select-one-list-box ${className}`;
 
   return (
     <div className="field" style={{ display: 'flex', alignItems: 'center' }}>
       <div style={{
         width: '100%',
         display: 'flex',
-        alignItems: 'center', // Center items vertically
+        alignItems: 'center',
         marginLeft: `${divLeftSize}%`
-      }} ref={selectBoxRef}>
+      }}>
         <div style={{
           minWidth: '80px',
-          marginRight: '10px',
+          marginRight: labeltext?.length > 10 ? '10px' : '10px',
           textAlign: 'left',
           display: 'flex',
-          alignItems: 'center', // Align label vertically with select-box
+          alignItems: 'center',
         }}>
-          <label
-            htmlFor={id}
+          <label 
+            htmlFor={id} 
             className="block label"
-            style={{ width: '120px', 
+            style={{
+              width: '100px', 
               display: 'inline-block',
-              wordWrap: 'break-word',   // Uzun metinleri alt satıra kırar
-              whiteSpace: 'normal',    // Satır kaydırmaya izin verir 
+              wordWrap: 'break-word',
+              whiteSpace: 'normal',
               maxWidth: '100%', 
               wordBreak: 'break-word',
-              }} // Add width and inline-block style
+            }}
           >
             {labeltext} : {required && <span style={{ color: 'red' }}>*</span>}
           </label>
         </div>
 
-        <div className="select-container" style={{
-          flexGrow: 1,
-          display: 'flex',
-          alignItems: 'center', // Align select box vertically
-        }}>
+        <div ref={dropdownRef} className="select-container">
           <div
             className={`select-box ${isDropdownOpen ? 'activex' : ''}`}
             onClick={toggleDropdown}
@@ -137,9 +122,6 @@ const SelectOneListBox = ({
               borderColor: borderColor || 'green',
               borderWidth: borderWidth || '1px',
               padding: padding || '4px',
-              width: width || '10%',
-              maxWidth: width || '10%',
-              minWidth: '3%',
               cursor: 'pointer',
               textAlign: 'left',
               display: 'flex',
@@ -148,14 +130,14 @@ const SelectOneListBox = ({
           >
             <div style={{ flexGrow: 1 }}>
               {selectedValue
-                ? item.find(opt => opt.value === selectedValue)?.label || placeholder
+                ? item.find(opt => opt.value === selectedValue)?.label
                 : placeholder}
             </div>
             <span className={`arrow ${isDropdownOpen ? 'up' : 'down'}`} />
           </div>
 
           {isDropdownOpen && (
-            <div className="dropdown" style={{ width: '15%' }}>
+            <div className="dropdown" style={{ width: '100%' }}>
               {isSearchable && (
                 <input
                   type="text"
@@ -169,13 +151,15 @@ const SelectOneListBox = ({
 
               <ul className="dropdown-list" style={{ width: '100%' }}>
                 {filteredOptions?.map((option, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleSelectChange({ target: { value: option.value } })}
-                    className="dropdown-item"
-                  >
-                    {option.label}
-                  </li>
+                  option?.value && option?.label ? (
+                    <li
+                      key={index}
+                      onClick={() => handleSelectChange(option)}
+                      className={`dropdown-item ${selectedValue === option.value ? 'selected' : ''}`}
+                    >
+                      {option.label}
+                    </li>
+                  ) : null
                 ))}
               </ul>
             </div>
