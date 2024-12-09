@@ -144,7 +144,7 @@ const SelectCheckListBox = ({
             onClick={toggleDropdown}
             style={{
               backgroundColor: backgroundColor || '#fff',
-              borderColor: borderColor || 'green',
+              borderColor: borderColor || '#ccc',
               borderWidth: borderWidth || '1px',
               padding: padding || '4px',
               cursor: 'pointer',

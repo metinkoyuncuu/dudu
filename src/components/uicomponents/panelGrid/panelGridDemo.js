@@ -6,6 +6,7 @@ import { useSelectChange } from '../../../context/SelectChangeContext';
 import InputText from '../inputText/inputText';
 import DatePicker from '../datePicker/datePicker';
 import DatePickerHour from '../datePicker/datePickerHour';
+import Check from '../check/checkGroup';
 import Form from '../form';
 
 function PanelGridDemo() {
@@ -16,11 +17,10 @@ function PanelGridDemo() {
                 backgroundColor='blue'
                 width={'100'}
                 overlayOpacity={0.2}
-                columns={4}
+                columns={5}
                 columnWidth={0}
                 height={800}
             >
-
                 <SelectOneListBox
                     reqGet={'/UHaslib/cinsiyet'}
                     name={'cinsiyet'}
@@ -31,7 +31,7 @@ function PanelGridDemo() {
                     // padding={'3%'}
                     width={'10%'}
                     //borderWidth={'9px'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     defaultValue={'H'}
@@ -45,7 +45,7 @@ function PanelGridDemo() {
                     labeltext={'CheckListhandleSelectChange'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -60,7 +60,7 @@ function PanelGridDemo() {
                     labeltext={'Atakan'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -75,23 +75,7 @@ function PanelGridDemo() {
                     labeltext={'Atakan'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
-                    hardInput={true}
-                    isSearchable={true}
-                    dset={'/Login/stringDeger'}
-                    required={true}
-                />
-
-
-                <SelectCheckListBox
-                    id={"ChecList"}
-                    reqGet={'/UHaslib/cinsiyet'}
-                    name={'cinsiyetsss'}
-                    onChange={useSelectChange()}
-                    labeltext={'Atakan'}
-                    placeholder="Seçiniz"
-                    backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -107,7 +91,7 @@ function PanelGridDemo() {
                     labeltext={'Atakan'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -123,7 +107,7 @@ function PanelGridDemo() {
                     labeltext={'Atakan'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -139,7 +123,7 @@ function PanelGridDemo() {
                     labeltext={'Atakan'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -155,7 +139,23 @@ function PanelGridDemo() {
                     labeltext={'Atakan'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
+                    hardInput={true}
+                    isSearchable={true}
+                    dset={'/Login/stringDeger'}
+                    required={true}
+                />
+
+
+                <SelectCheckListBox
+                    id={"ChecList"}
+                    reqGet={'/UHaslib/cinsiyet'}
+                    name={'cinsiyetsss'}
+                    onChange={useSelectChange()}
+                    labeltext={'Atakan'}
+                    placeholder="Seçiniz"
+                    backgroundColor={'white'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -170,7 +170,7 @@ function PanelGridDemo() {
                     labeltext={'Atakan'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -185,7 +185,7 @@ function PanelGridDemo() {
                     labeltext={'Atakan'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -200,7 +200,7 @@ function PanelGridDemo() {
                     labeltext={'CheckListhandleSelectChange'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'#ccc'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}
@@ -232,6 +232,21 @@ function PanelGridDemo() {
                     required={true}
                 />
 
+                <Check
+                    item ={[
+                        { name: "New York", value: "N" },
+                        { name: "London", value: "L" },
+                        { name: "Paris", value: "P" },
+                        { name: "Tokyo", value: "T" },
+                        { name: "Berlin", value: "B" },
+                        { name: "Rome", value: "R" },
+                        { name: "Madrid", value: "M" },
+                        { name: "Dubai", value: "D" },
+                        { name: "Istanbul", value: "I" }
+                    ]}
+                    label="Atakan"
+                />
+
 
             </PanelGrid>
 
@@ -252,7 +267,7 @@ function PanelGridDemo() {
                     labeltext={'CheckListhandleSelectChange'}
                     placeholder="Seçiniz"
                     backgroundColor={'white'}
-                    borderColor={'green'}
+                    borderColor={'black'}
                     hardInput={true}
                     isSearchable={true}
                     dset={'/Login/stringDeger'}

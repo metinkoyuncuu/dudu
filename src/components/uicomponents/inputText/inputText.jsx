@@ -62,7 +62,7 @@ const InputText = ({
                 value={data} // Eğer veri geldiyse, input'un değerini ayarla
                 onChange={handleChange} // Kullanıcı girişi için onChange ekle
                 readOnly={readOnly} // readOnly prop'u burada kullanılıyor
-                style={{ width: '193px' }}
+                style={{ width: '193px', borderColor: '#ccc' }}
             />
             {helperText && <small className="block">{helperText}</small>}
         </div>
