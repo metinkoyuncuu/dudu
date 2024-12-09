@@ -4,6 +4,8 @@
   border-radius: 0.375rem;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0; /* Dış boşluğu kaldır */
+  padding: 0; /* İç boşluğu kaldır */  
 }
 
 .panel-grid-header {
@@ -12,8 +14,14 @@
   cursor: pointer;
   background-color: #f3f4f6;
   border-bottom: 1px solid #d1d5db;
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 1rem;
   box-sizing: border-box;
+  margin-bottom: 0; /* Başlık altındaki dış boşluğu kaldır */
+  padding-bottom: 0; /* Başlık altındaki iç boşluğu kaldır */
+  margin-left: 0; /* Başlık için dış sol boşluğu kaldır */
+  padding-left: 0; /* Başlık için iç sol boşluğu kaldır */
+  margin-top: -5px; /* Başlığı yukarı kaydırmak için negatif bir margin değeri */
+  padding-top: 0; /* İç boşluğu kaldırmak veya azaltmak için */
 }
 
 .panel-grid-button {
@@ -37,4 +45,6 @@
 
 .panel-grid-form {
   display: grid;
+  margin-top: 0;
+  padding-top: 0;
 }

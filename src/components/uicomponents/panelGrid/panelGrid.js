@@ -45,13 +45,12 @@ export default function PanelGrid({
 
 
   const headerStyle = {
-    width: formattedWidth, // Header'ın genişliği
+    width: `${parseInt(formattedWidth, 11)}%`, // Header'ın genişliği   
   };
 
   return (
     <div className="panel-grid" style={panelClassName}>
-      <div className="panel-grid-header" onClick={togglePanel} style={headerStyle}>
-        <button className="panel-grid-button">{isOpen ? '–' : '+'}</button>
+      <div className="panel-grid-header" onClick={togglePanel} style={headerStyle}>        
         <span className="panel-grid-title">{title}</span>
       </div>
       {isOpen && (
