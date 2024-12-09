@@ -4,6 +4,7 @@ import SelectCheckListBox from '../selectListBox/selectCheckListBox';
 import SelectOneListBox from '../selectListBox/selectOneListBox';
 import { useSelectChange } from '../../../context/SelectChangeContext';
 import InputText from '../inputText/inputText';
+import DatePicker from '../datePicker/datePicker';
 import Form from '../form';
 
 function PanelGridDemo() {
@@ -213,6 +214,16 @@ function PanelGridDemo() {
                     visible={true}
                     defaultValue={'K'}
                 />
+
+                <DatePicker
+                    label="AtakanDatePicker"
+                    selected={"selectedDate"}
+                    onChange={useSelectChange()}
+                    dateFormat="yyyy-MM-dd"                    
+                    required={true}
+                />
+
+
 
 
             </PanelGrid>

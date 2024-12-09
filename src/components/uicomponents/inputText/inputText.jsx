@@ -42,12 +42,14 @@ const InputText = ({
                 htmlFor={id}
                 className="block label"
                 style={{
-                    width: '90px',
-                    marginRight: label?.length > 10 ? '10px' : '10px',
-                    display: 'inline-block',
-                    wordBreak: 'break-word',   // Eğer label çok uzun olursa, kelime kesilecektir.
-                    maxWidth: '100%',           // Genişliği %90 yaparak, label'in kutuyu sarmasını engeller
-                }}
+                width: '90px',
+                display: 'inline-block',
+                wordWrap: 'break-word',   // Wrap long texts
+                whiteSpace: 'normal',     // Allow word wrapping
+                maxWidth: '100%',
+                wordBreak: 'break-word',
+                marginRight: label?.length > 10 ? '10px' : '10px',
+                }}        
             >
                 {label} : {required && <span style={{ color: 'red' }}>*</span>}
             </label>
