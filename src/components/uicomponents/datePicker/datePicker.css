@@ -30,18 +30,21 @@
     padding: 10px;
     width: 250px;
     z-index: 10;
+    font-size: 16px;
   }
   
   .calendar-header {
     text-align: center;
     margin-bottom: 10px;
     font-weight: bold;
+    font-size: 18px;  /* Takvim başlığındaki yazı boyutunu büyütme */  
   }
   
   .calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
+    font-size: 14px;
   }
   
   .calendar-day {
@@ -61,3 +64,19 @@
     color: white;
   }
   
+  .calendar-header button:first-child {
+    margin-right: 10px; /* '<' butonunun sağ tarafına boşluk */
+  }
+  
+  .calendar-header button:last-child {
+    margin-left: 10px; /* '>' butonunun sol tarafına boşluk */
+  }
+
+  .dark-label {
+    color: #000000;  /* Koyu siyah renk */
+    font-weight: bold;  /* Yazıyı kalın yapar */
+  }
+
+  button {
+    font-size: 18px;  /* Buton yazı boyutunu büyütme */
+  }

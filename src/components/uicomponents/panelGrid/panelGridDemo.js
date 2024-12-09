@@ -5,6 +5,7 @@ import SelectOneListBox from '../selectListBox/selectOneListBox';
 import { useSelectChange } from '../../../context/SelectChangeContext';
 import InputText from '../inputText/inputText';
 import DatePicker from '../datePicker/datePicker';
+import DatePickerHour from '../datePicker/datePickerHour';
 import Form from '../form';
 
 function PanelGridDemo() {
@@ -219,11 +220,17 @@ function PanelGridDemo() {
                     label="AtakanDatePicker"
                     selected={"selectedDate"}
                     onChange={useSelectChange()}
-                    dateFormat="yyyy-MM-dd"                    
+                    dateFormat="yyyy-MM-dd"
                     required={true}
                 />
 
-
+                <DatePickerHour
+                    label="AtakanDatePicker"
+                    selected={"selectedDate"}
+                    onChange={useSelectChange()}
+                    dateFormat="yyyy-MM-dd"
+                    required={true}
+                />
 
 
             </PanelGrid>
