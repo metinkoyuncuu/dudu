@@ -1,0 +1,25 @@
+.check-one-container {
+    display: flex;
+    flex-direction: column;
+    padding-left: var(--left); /* Used for dynamic left padding */
+    width: 50%;
+  }
+  
+  .check-title {
+    margin-bottom: 10px;
+  }
+  
+  .checkbox-item {
+    display: flex;
+    align-items: center; /* Ensures checkbox and label are aligned */
+    gap: 5px; /* Adjust this to control the space between checkbox and label */
+  }
+  
+  .checkbox-item input {
+    margin-right: 5px; /* Space between checkbox and label */
+  }
+  
+  .checkbox-label {
+    font-size: 14px; /* Adjust the font size as needed */
+  }
+  

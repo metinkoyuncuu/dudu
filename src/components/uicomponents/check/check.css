@@ -25,6 +25,7 @@ body {
     padding: 8px;
     border-radius: 4px;
     transition: box-shadow 0.2s;
+    font-size: 14px;
   }
   
   .checkbox-item:hover {
@@ -42,4 +43,5 @@ body {
     background-color: white; /* Başlık arka planını beyaz yap */
     padding: 0 5px; /* Başlık etrafında biraz boşluk bırak */
     font-weight: bold; /* Başlık kalın olsun */
+    font-size: 12px;
   }

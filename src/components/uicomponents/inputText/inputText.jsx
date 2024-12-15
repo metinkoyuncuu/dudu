@@ -10,7 +10,8 @@ const InputText = ({
     required,
     dset,
     readOnly,
-    visible = true // Set default value for visible prop
+    visible = true, // Set default value for visible prop
+    toggleMask = false // New prop for masking
 }) => {
     const [data, setData] = useState(''); // API'den çekilen veriyi tutmak için state
 
@@ -42,19 +43,19 @@ const InputText = ({
                 htmlFor={id}
                 className="block label"
                 style={{
-                width: '90px',
-                display: 'inline-block',
-                wordWrap: 'break-word',   // Wrap long texts
-                whiteSpace: 'normal',     // Allow word wrapping
-                maxWidth: '100%',
-                wordBreak: 'break-word',
-                marginRight: label?.length > 10 ? '10px' : '10px',
+                    width: '90px',
+                    display: 'inline-block',
+                    wordWrap: 'break-word',   // Wrap long texts
+                    whiteSpace: 'normal',     // Allow word wrapping
+                    maxWidth: '100%',
+                    wordBreak: 'break-word',
+                    marginRight: label?.length > 10 ? '10px' : '10px',
                 }}        
             >
                 {label} : {required && <span style={{ color: 'red' }}>*</span>}
             </label>
             <input
-                type="text"
+                type={toggleMask ? "password" : "text"} // If toggleMask is true, mask the input value
                 id={id}
                 className="block input"
                 placeholder={placeholder}

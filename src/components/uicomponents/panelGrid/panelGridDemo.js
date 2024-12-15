@@ -7,9 +7,36 @@ import InputText from '../inputText/inputText';
 import DatePicker from '../datePicker/datePicker';
 import DatePickerHour from '../datePicker/datePickerHour';
 import Check from '../check/checkGroup';
+import CheckOne from '../check/CheckOne';
+import RadioGroup from '../radio/radioGroup';
+import PickList from '../pickList/pickList';
+import TextEditor from '../textEditor/textEditor';
+import DataGrid from '../dataGrid/dataGrid';
 import Form from '../form';
 
 function PanelGridDemo() {
+
+    const cities = [
+        { id: 1, name: "London" },
+        { id: 2, name: "Paris" },
+        { id: 3, name: "Istanbul" },
+        { id: 4, name: "Berlin" },
+        { id: 5, name: "Barcelona" },
+        { id: 6, name: "Rome" },
+    ];
+    const fetchData = async (page, rowsPerPage) => {
+        // API'den verileri al (örnek veri)
+        const data = [
+            { name: 'Jane', country: 'Canada', company: 'XYZ Ltd.', atakan: 'Hayal', representative: 'Bob' },
+            { name: 'John', country: 'USA', company: 'ABC Inc.', atakan: 'Atakan', representative: 'Alice' },
+            { name: 'Jane', country: 'Canada', company: 'XYZ Ltd.', atakan: 'Veciha', representative: 'Bob' },
+            { name: 'Jane', country: 'Canada', company: 'XYZ Ltd.', atakan: 'Ecehan', representative: 'Bob' },
+            { name: 'Jane', country: 'Canada', company: 'XYZ Ltd.', atakan: 'Enis', representative: 'Bob' },
+
+        ];
+        return data.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+    };
+
     return (
         <Form>
             <PanelGrid
@@ -19,7 +46,7 @@ function PanelGridDemo() {
                 overlayOpacity={0.2}
                 columns={5}
                 columnWidth={0}
-                height={800}
+                height={1500}
             >
                 <SelectOneListBox
                     reqGet={'/UHaslib/cinsiyet'}
@@ -210,10 +237,11 @@ function PanelGridDemo() {
                 <InputText
                     label="Atakan"
                     id="username1"
-                    required={true}
+                    required={false}
                     dset={'cinsiyet'}
                     visible={true}
                     defaultValue={'K'}
+                    toggleMask={false}
                 />
 
                 <DatePicker
@@ -233,7 +261,35 @@ function PanelGridDemo() {
                 />
 
                 <Check
-                    item ={[
+                    reqGet={'/UHaslib/cinsiyet'}
+                    item={[
+                        { name: "New York", value: "N" },
+                        { name: "London", value: "L" },
+                        { name: "Paris", value: "P" },
+                        { name: "Tokyo", value: "T" },
+                        { name: "Berlin", value: "B" },
+                        { name: "Rome", value: "R" },
+                        { name: "Madrid", value: "M" },
+                        { name: "Dubai", value: "D" },
+                        { name: "Istanbul", value: "I" }
+                    ]}
+                    label="Atakan"
+                />
+
+                <CheckOne
+                    item={[
+                        { name: "Erkek", value: "E" },
+                    ]}
+                />
+
+                <CheckOne
+                    item={[
+                        { name: "Kadın", value: "K" },
+                    ]}
+                />
+
+                <RadioGroup
+                    item={[
                         { name: "New York", value: "N" },
                         { name: "London", value: "L" },
                         { name: "Paris", value: "P" },
@@ -248,32 +304,39 @@ function PanelGridDemo() {
                 />
 
 
+
+                <PickList value={cities}
+                    varName="city"
+                    itemLabel="name"
+                    itemValue="id" />
+
+
+                <TextEditor
+                    widgetVar="editor1"
+                    varName="editorContent"
+                    value="<p>Merhaba Dünya!</p>"
+                    height="210px"
+                    width="1800px"
+                />
+
+
+                <DataGrid
+                    fetchData={fetchData}
+                    columns={[
+                        { header: 'Name', field: 'name', sortable: true, filterable: true},
+                        { header: 'Country', field: 'country', sortable: true, filterable: true},
+                        { header: 'Company', field: 'company', sortable: true, filterable: false}, // hidden column
+                        { header: 'Atakan', field: 'atakan', sortable: true, filterable: true}
+                    ]}
+                    fileName="my_data"
+                    gridWidth="98%"
+                    gridPosition={{ x: '20px', y: '1050px' }}
+                />
+
+
             </PanelGrid>
 
-            <PanelGrid
-                title={'Atakan'}
-                backgroundColor='blue'
-                width={'100'}
-                overlayOpacity={0.2}
-                columns={6}
-                columnWidth={3}
-                height={400}
-            >
-                <SelectCheckListBox
-                    id={"ChecList"}
-                    reqGet={'/UHaslib/cinsiyet'}
-                    name={'cinsiyetsss'}
-                    onChange={useSelectChange()}
-                    labeltext={'CheckListhandleSelectChange'}
-                    placeholder="Seçiniz"
-                    backgroundColor={'white'}
-                    borderColor={'black'}
-                    hardInput={true}
-                    isSearchable={true}
-                    dset={'/Login/stringDeger'}
-                    required={true}
-                />
-            </PanelGrid>
+
         </Form>
     );
 }

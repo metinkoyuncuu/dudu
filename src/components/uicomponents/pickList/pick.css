@@ -1,0 +1,49 @@
+  .picklist-container {
+    display: flex;
+    align-items: flex-start; /* Align items at the top */
+    justify-content: center;
+    gap: 10px;
+    max-height: 200px; /* Adjust container height */
+    overflow-y: auto; /* Avoid container scrolling (only scroll individual lists) */
+  }
+  
+  .picklist-column {
+    width: 200px;
+    height: 300px;
+    border: 1px solid #ddd;
+    overflow-y: auto; /* Ensure individual columns can also scroll */
+    background-color: #ffffff;
+  }
+  
+  .picklist-source,
+  .picklist-target {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .picklist-source li,
+  .picklist-target li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .picklist-source li.selected,
+  .picklist-target li.selected {
+    background-color: #007ad9;
+    color: #fcfafa;
+  }
+  
+  .picklist-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .picklist-buttons button {
+    padding: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;    
+  }
+  
