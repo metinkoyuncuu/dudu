@@ -304,7 +304,6 @@ function PanelGridDemo() {
                 />
 
 
-
                 <PickList value={cities}
                     varName="city"
                     itemLabel="name"
@@ -319,7 +318,6 @@ function PanelGridDemo() {
                     width="1800px"
                 />
 
-
                 <DataGrid
                     fetchData={fetchData}
                     columns={[
@@ -328,9 +326,9 @@ function PanelGridDemo() {
                         { header: 'Company', field: 'company', sortable: true, filterable: false}, // hidden column
                         { header: 'Atakan', field: 'atakan', sortable: true, filterable: true}
                     ]}
-                    fileName="my_data"
                     gridWidth="98%"
                     gridPosition={{ x: '20px', y: '1050px' }}
+                    fileName="hayal" 
                 />
 
 

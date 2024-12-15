@@ -6,7 +6,7 @@ import './dataGrid.css';
 const DataGrid = ({
     fetchData,
     columns,
-    fileName,
+    fileName = 'My_data',
     gridWidth = '98%',
     columnSpacing = '10px',
     showXlsxButton = true,
