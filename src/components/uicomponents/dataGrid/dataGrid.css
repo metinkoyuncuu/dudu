@@ -101,3 +101,66 @@
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* Paginator Links Styling */
+.ui-paginator-first, .ui-paginator-prev, .ui-paginator-next, .ui-paginator-last {
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 3px;
+    display: inline-block;
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Hover Effects */
+.ui-paginator-first:hover, .ui-paginator-prev:hover, .ui-paginator-next:hover, .ui-paginator-last:hover {
+    background-color: #ddd;
+}
+
+/* Disabled State Styling */
+.ui-state-disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    background-color: #f9f9f9;
+}
+
+/* Icon Styles (Unicode) */
+.ui-icon {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+    margin: 0 5px;
+}
+
+/* Custom Icons using Unicode */
+.ui-icon-seek-end:before {
+    content: "\00ab"; /* << */
+    font-size: 18px;
+}
+
+.ui-icon-seek-prev:before {
+    content: "\2039"; /* ‹ */
+    font-size: 18px;
+}
+
+.ui-icon-seek-next:before {
+    content: "\203a"; /* › */
+    font-size: 18px;
+}
+
+/* Page Number Styling */
+span {
+    margin: 0 10px;
+    font-size: 16px;
+}

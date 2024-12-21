@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PanelGrid from './panelGrid';
 import SelectCheckListBox from '../selectListBox/selectCheckListBox';
 import SelectOneListBox from '../selectListBox/selectOneListBox';
@@ -29,12 +29,12 @@ function PanelGridDemo() {
         const data = [
             { name: 'Jane', country: 'Canada', company: 'XYZ Ltd.', atakan: 'Hayal', representative: 'Bob' },
             { name: 'John', country: 'USA', company: 'ABC Inc.', atakan: 'Atakan', representative: 'Alice' },
-            { name: 'Jane', country: 'Canada', company: 'XYZ Ltd.', atakan: 'Veciha', representative: 'Bob' },
-            { name: 'Jane', country: 'Canada', company: 'XYZ Ltd.', atakan: 'Ecehan', representative: 'Bob' },
-            { name: 'Jane', country: 'Canada', company: 'XYZ Ltd.', atakan: 'Enis', representative: 'Bob' },
+            { name: 'Jane', country: 'TURK', company: 'TEST1.', atakan: 'Veciha', representative: 'Bob' },
+            { name: 'Jane', country: 'IRAN', company: 'TEST2.', atakan: 'Ecehan', representative: 'Bob' },
+            { name: 'Jane', country: 'RUS', company: 'TEST3.', atakan: 'Enis', representative: 'Bob' },
 
         ];
-        return data.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+        return data;
     };
 
     return (
@@ -329,6 +329,7 @@ function PanelGridDemo() {
                     gridWidth="98%"
                     gridPosition={{ x: '20px', y: '1050px' }}
                     fileName="hayal" 
+                    rowsPerPage={3}
                 />
 
 

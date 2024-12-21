@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';  // React ve gerekli hook'ları içe aktarma
-import { CSVLink } from 'react-csv';  // CSVLink'i içe aktarma
-import * as XLSX from 'xlsx';  // XLSX'i içe aktarma
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { CSVLink } from 'react-csv';
+import * as XLSX from 'xlsx';
 import './dataGrid.css';
 
-const DataGrid = ({
+const DataGrid = React.memo(({
     fetchData,
     columns,
     fileName = 'My_data',
@@ -16,74 +16,88 @@ const DataGrid = ({
     gridPosition = { x: '0px', y: '0px' },
     enableFilter = true,
     enableSort = true,
+    rowsPerPage: externalRowsPerPage = 10,
 }) => {
-    const [data, setData] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
+    const [data, setData] = useState([]); // Tüm veri
+    const [filteredData, setFilteredData] = useState([]); // Filtrelenmiş veri
     const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(1);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [filters, setFilters] = useState({});
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-    const [selectedRow, setSelectedRow] = useState(null);
+    const [page, setPage] = useState(1); // Sayfa numarası
+    const [rowsPerPage, setRowsPerPage] = useState(externalRowsPerPage); // Sayfa başına satır sayısı
+    const [filters, setFilters] = useState({}); // Filtreler
+    const [selectedRow, setSelectedRow] = useState(null); // Seçilen satır
 
+    // Veriyi yükle (sadece ilk kez yükleme ve filtreleme değiştiğinde)
     useEffect(() => {
         const loadData = async () => {
             setLoading(true);
-            const result = await fetchData(page, rowsPerPage);
-            setData(result);
-            setFilteredData(result);
+            const result = await fetchData(); // Veriyi al
+            setData(result); // Veriyi set et
+            setFilteredData(result); // Filtrelenmiş veriyi de set et
             setLoading(false);
         };
         loadData();
-    }, [page, rowsPerPage, fetchData]);
+    }, [fetchData]); // fetchData değiştiğinde veri yükle
 
-    const exportToExcel = (type) => {
-        const ws = XLSX.utils.json_to_sheet(filteredData);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-        XLSX.writeFile(wb, `${fileName}.${type}`);
-    };
+    // Sayfa verisini ayarla (sayfa değiştirildiğinde)
+    const handlePageChange = useCallback((newPage) => {
+        setPage(newPage); // Sayfa numarasını güncelle
+    }, []);
 
-    const handleFilterChange = (column, value) => {
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [column]: value,
-        }));
-    };
-
-    useEffect(() => {
-        const filtered = data.filter((row) => {
-            return columns.every((col) => {
-                if (!filters[col.field]) return true;
-                return row[col.field]
-                    .toString()
-                    .toLowerCase()
-                    .includes(filters[col.field].toLowerCase());
-            });
+    // Filtremeyi yönetme
+    const handleFilterChange = useCallback((field, value) => {
+        setFilters((prevFilters) => {
+            const newFilters = {
+                ...prevFilters,
+                [field]: value,
+            };
+            applyFilter(newFilters); // Filtreleme işlemini uygula
+            return newFilters;
         });
-        setFilteredData(filtered);
-    }, [filters, data]);
+    }, []);
 
-    const handleSort = (column) => {
-        if (column.sortable !== false && enableSort) {
-            const newDirection = sortConfig.key === column.field && sortConfig.direction === 'asc' ? 'desc' : 'asc';
-            setSortConfig({ key: column.field, direction: newDirection });
+    // Filtreleme işlemi
+    const applyFilter = (filters) => {
+        let updatedData = [...data];
 
-            const sortedData = [...filteredData].sort((a, b) => {
-                if (a[column.field] < b[column.field]) return newDirection === 'asc' ? -1 : 1;
-                if (a[column.field] > b[column.field]) return newDirection === 'asc' ? 1 : -1;
-                return 0;
-            });
-            setFilteredData(sortedData);
+        // Filtrele
+        for (const key in filters) {
+            if (filters[key]) {
+                updatedData = updatedData.filter((row) =>
+                    String(row[key]).toLowerCase().includes(filters[key].toLowerCase())
+                );
+            }
         }
+
+        setFilteredData(updatedData);
+        setPage(1); // Filtre uygulandıktan sonra ilk sayfaya dön
     };
 
-    const handleRowClick = (index) => {
-        setSelectedRow(index === selectedRow ? null : index);
-    };
+    // Dışa aktarım işlemleri
+    const exportToExcel = useCallback((fileType) => {
+        const ws = XLSX.utils.json_to_sheet(filteredData);
+        const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
 
-    // Filter out columns with showNotColumn: true
-    const visibleColumns = columns.filter(col => (col.showNotColumn !== undefined ? col.showNotColumn : false) !== true);
+        if (fileType === 'xlsx') {
+            XLSX.writeFile(wb, `${fileName}.xlsx`);
+        } else if (fileType === 'xls') {
+            XLSX.writeFile(wb, `${fileName}.xls`);
+        } else if (fileType === 'txt') {
+            const txtData = filteredData.map(row => Object.values(row).join('\t')).join('\n');
+            const blob = new Blob([txtData], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${fileName}.txt`;
+            link.click();
+        }
+    }, [filteredData, fileName]);
+
+    // Sayfa verisini hesapla
+    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+    const startIdx = (page - 1) * rowsPerPage;
+    const endIdx = page * rowsPerPage;
+    const paginatedData = filteredData.slice(startIdx, endIdx);
+
+    const memoizedColumns = useMemo(() => columns, [columns]);
 
     return (
         <div
@@ -121,19 +135,18 @@ const DataGrid = ({
             <table className="datagrid" style={{ width: gridWidth, backgroundColor: 'white' }}>
                 <thead>
                     <tr>
-                        {visibleColumns.map((col) => (
+                        {memoizedColumns.map((col) => (
                             <th key={col.field} style={{ paddingRight: columnSpacing }}>
                                 <div className="header-filter-container">
-                                    <div className="header-cell" onClick={() => handleSort(col)}>
+                                    <div className="header-cell">
                                         {col.header}
-                                        <span className="sort-arrow">
-                                            {(sortConfig.key === col.field) ? (sortConfig.direction === 'asc' ? '↓' : '↑') : '↓'}
-                                        </span>
                                     </div>
                                     {enableFilter && col.filterable && (
                                         <input
+                                            key={col.field} // Her input için benzersiz bir key
                                             type="text"
                                             placeholder={`Filter ${col.header}`}
+                                            value={filters[col.field] || ''} // İlgili filtre değerini göster
                                             onChange={(e) => handleFilterChange(col.field, e.target.value)}
                                             className="filter-input"
                                         />
@@ -146,20 +159,20 @@ const DataGrid = ({
                 <tbody>
                     {loading ? (
                         <tr>
-                            <td colSpan={visibleColumns.length}>Loading...</td>
+                            <td colSpan={columns.length}>Loading...</td>
                         </tr>
                     ) : (
-                        filteredData.map((row, index) => (
+                        paginatedData.map((row, index) => (
                             <tr
                                 key={index}
-                                onClick={() => handleRowClick(index)}
+                                onClick={() => setSelectedRow(index)}
                                 style={{
                                     backgroundColor: selectedRow === index ? 'whitesmoke' : 'transparent',
                                 }}
                             >
-                                {visibleColumns.map((col) => (
+                                {memoizedColumns.map((col) => (
                                     <td key={col.field} style={{ paddingRight: columnSpacing }}>
-                                        {col.render ? col.render(row[col.field]) : row[col.field]}
+                                        {row[col.field]}
                                     </td>
                                 ))}
                             </tr>
@@ -169,17 +182,54 @@ const DataGrid = ({
             </table>
 
             <div className="pagination">
-                <button
-                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                    disabled={page === 1}
+                <a
+                    href="#"
+                    className={`ui-paginator-first ui-state-default ui-corner-all ${page === 1 ? 'ui-state-disabled' : ''}`}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(1);
+                    }}
+                    aria-label="First Page"
                 >
-                    Previous
-                </button>
-                <span>Page {page}</span>
-                <button onClick={() => setPage((prev) => prev + 1)}>Next</button>
+                    <span className="ui-icon ui-icon-seek-end">{"<<"}</span>
+                </a>
+                <a
+                    href="#"
+                    className={`ui-paginator-prev ui-state-default ui-corner-all ${page === 1 ? 'ui-state-disabled' : ''}`}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(Math.max(page - 1, 1));
+                    }}
+                    aria-label="Previous Page"
+                >
+                    <span className="ui-icon ui-icon-seek-prev">‹</span>
+                </a>
+                <span>Page {page} of {totalPages}</span>
+                <a
+                    href="#"
+                    className={`ui-paginator-next ui-state-default ui-corner-all ${page === totalPages ? 'ui-state-disabled' : ''}`}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(Math.min(page + 1, totalPages));
+                    }}
+                    aria-label="Next Page"
+                >
+                    <span className="ui-icon ui-icon-seek-next">›</span>
+                </a>
+                <a
+                    href="#"
+                    className={`ui-paginator-last ui-state-default ui-corner-all ${page === totalPages ? 'ui-state-disabled' : ''}`}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(totalPages);
+                    }}
+                    aria-label="Last Page"
+                >
+                    <span className="ui-icon ui-icon-seek-end">{" >> "}</span>
+                </a>
             </div>
         </div>
     );
-};
+});
 
 export default DataGrid;
