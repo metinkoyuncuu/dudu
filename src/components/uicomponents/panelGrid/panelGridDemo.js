@@ -12,6 +12,7 @@ import RadioGroup from '../radio/radioGroup';
 import PickList from '../pickList/pickList';
 import TextEditor from '../textEditor/textEditor';
 import DataGrid from '../dataGrid/dataGrid';
+import Button from '../button/button';
 import Form from '../form';
 
 function PanelGridDemo() {
@@ -321,15 +322,30 @@ function PanelGridDemo() {
                 <DataGrid
                     fetchData={fetchData}
                     columns={[
-                        { header: 'Name', field: 'name', sortable: true, filterable: true},
-                        { header: 'Country', field: 'country', sortable: true, filterable: true},
-                        { header: 'Company', field: 'company', sortable: true, filterable: false}, // hidden column
-                        { header: 'Atakan', field: 'atakan', sortable: true, filterable: true}
+                        { header: 'Name',    field: 'name',    sortable: true, filterable: true },
+                        { header: 'Country', field: 'country', sortable: true, filterable: true },
+                        { header: 'Company', field: 'company', sortable: true, filterable: false }, // hidden column
+                        { header: 'Atakan',  field: 'atakan',  sortable: true, filterable: true }
                     ]}
                     gridWidth="98%"
                     gridPosition={{ x: '20px', y: '1050px' }}
-                    fileName="hayal" 
-                    rowsPerPage={1}
+                    fileName="hayal"
+                    rowsPerPage={6}
+                    showXlsxButton={true}
+                    showXlsButton={true}
+                    showCsvButton={true}
+                    showTxtButton={true}
+                />
+
+                <Button
+                    id="myButton"
+                    icon="pi pi-check"
+                    value="Click Me"
+                    marginTop="10px"
+                    marginRight="20px"
+                    marginBottom="-500px"
+                    marginLeft="50px"
+                    actionListener={() => alert("Button clicked!")}
                 />
 
 

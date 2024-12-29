@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './datePicker.css';
 
-const DatePicker = ({ selected, onChange, dateFormat, className, label, required }) => {
+const DatePickerHour = ({ selected, onChange, dateFormat, className, label, required }) => {
   const today = new Date();
   const [showCalendar, setShowCalendar] = useState(false);
   const [currentDate, setCurrentDate] = useState(
@@ -10,7 +10,7 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
 
-  const calendarRef = useRef(null);  // Takvim için ref
+  const calendarRef = useRef(null); // Takvim için ref
 
   // Takvimi açma/kapama
   const handleCalendarToggle = () => setShowCalendar(!showCalendar);
@@ -32,7 +32,7 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-        setShowCalendar(false);  // Takvimi kapat
+        setShowCalendar(false); // Takvimi kapat
       }
     };
 
@@ -79,7 +79,16 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
 
   const renderCalendarDays = () => {
     const daysInMonth = getDaysInMonth(currentYear, currentMonth);
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+    const adjustedFirstDay = (firstDayOfMonth + 6) % 7; // Haftayı Pazartesi ile başlat
     const daysArray = [];
+
+    // Boş hücreleri ekle
+    for (let i = 0; i < adjustedFirstDay; i++) {
+      daysArray.push(<span key={`empty-${i}`} className="calendar-day empty"></span>);
+    }
+
+    // Günleri ekle
     for (let i = 1; i <= daysInMonth; i++) {
       const day = new Date(currentYear, currentMonth, i);
       daysArray.push(
@@ -92,10 +101,18 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
         </span>
       );
     }
+
+    // Ay sonuna ek boş hücreleri tamamla
+    const totalCells = adjustedFirstDay + daysInMonth;
+    const additionalEmptyCells = Math.ceil(totalCells / 7) * 7 - totalCells;
+
+    for (let i = 0; i < additionalEmptyCells; i++) {
+      daysArray.push(<span key={`end-empty-${i}`} className="calendar-day empty"></span>);
+    }
+
     return daysArray;
   };
 
-  // Saat, dakika ve saniye değişikliklerini işleyen fonksiyon
   const handleTimeChange = (e, type) => {
     const newDate = new Date(currentDate);
     if (type === 'hours') {
@@ -110,6 +127,9 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
       onChange(newDate); // Parent bileşene tarih gönder
     }
   };
+
+  // Haftanın günleri: Pt, Sa, Ça, Pe, Cu, Ct, Pz
+  const weekDays = ['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct', 'Pz'];
 
   return (
     <div className={`datepicker-container ${className}`} style={{ display: 'flex', alignItems: 'center' }}>
@@ -143,9 +163,14 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
             <span>{`${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`}</span>
             <button onClick={() => changeMonth(1)}>&gt;</button>
           </div>
-          <div className="calendar-days">
-            {renderCalendarDays()}
+          <div className="calendar-weekdays">
+            {weekDays.map((day, index) => (
+              <div key={index} className="calendar-weekday">
+                {day}
+              </div>
+            ))}
           </div>
+          <div className="calendar-days">{renderCalendarDays()}</div>
           <div className="time-input" style={{ marginTop: '15px', height: '20px' }}>
             <label className="dark-label">
               Saat :
@@ -164,7 +189,7 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
                 value={String(currentDate.getMinutes()).padStart(2, '0')}
                 onChange={(e) => handleTimeChange(e, 'minutes')}
                 className="time-input-field"
-                style={{ width: '40px', fontSize: '18px', marginLeft: '10px' }}
+                style={{ width: '40px', fontSize: '18px' }}
                 min="0"
                 max="59"
               />
@@ -186,4 +211,4 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
   );
 };
 
-export default DatePicker;
+export default DatePickerHour;

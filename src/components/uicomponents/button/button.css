@@ -1,0 +1,28 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #007ad9;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute; /* Düğmeyi mutlak pozisyona alır */
+    bottom: 10px; /* Sayfanın altından 10px yukarıda yerleştirir */
+    transform: translateX(-50%); /* Ortalamayı tamamlar */
+}
+
+.button:hover {
+    background-color: #005bb5;
+}
+
+.button i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.button span {
+    font-weight: bold;
+}

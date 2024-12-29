@@ -1,82 +1,87 @@
-/* Genel stil */
 .datepicker-container {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-  }
-  
-  .datepicker-input {
-    padding: 2px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 193px;
-    cursor: pointer;
-    margin-left: 5px;
-  }
-  
-  .datepicker-input:focus {
-    outline: none;   
-  }
-  
-  /* Takvim kutusunun görünümü */
-  .calendar {
-    position: absolute;
-    top: 40px;
-    left: 108px;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-    width: 250px;
-    z-index: 10;
-    font-size: 16px;
-  }
-  
-  .calendar-header {
-    text-align: center;
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 18px;  /* Takvim başlığındaki yazı boyutunu büyütme */  
-  }
-  
-  .calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    font-size: 14px;
-  }
-  
-  .calendar-day {
-    display: inline-block;
-    text-align: center;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 50%;
-  }
-  
-  .calendar-day:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .calendar-day:active {
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .calendar-header button:first-child {
-    margin-right: 10px; /* '<' butonunun sağ tarafına boşluk */
-  }
-  
-  .calendar-header button:last-child {
-    margin-left: 10px; /* '>' butonunun sol tarafına boşluk */
-  }
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
 
-  .dark-label {
-    color: #000000;  /* Koyu siyah renk */
-    font-weight: bold;  /* Yazıyı kalın yapar */
-  }
+.datepicker-input {
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 193px;
+  cursor: pointer;
+  margin-left: 5px;
+}
 
-  button {
-    font-size: 18px;  /* Buton yazı boyutunu büyütme */
-  }
+.datepicker-input:focus {
+  outline: none;
+}
+
+.calendar {
+  position: absolute;
+  top: 50px; /* Takvimin dikey konumu */
+  left: 156px;   /* Input kutusunun sol kenarına hizalanacak */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  width: 250px;
+  z-index: 10;
+  font-size: 16px;
+}
+
+.calendar-header {
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.calendar-header button {
+  margin: 0 10px;
+  font-size: 14px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 0.2fr);
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.calendar-weekday {
+  padding: 5px 0;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.calendar-day {
+  height: 35px;
+}
+
+.calendar-day:hover {
+  background-color: #e0e0e0;
+}
+
+.calendar-day.selected {
+  background-color: #4caf50;
+  color: white;
+}
+
+.calendar-day.empty {
+  visibility: hidden;
+  height: 35px;
+  width: 35px;
+}
