@@ -191,7 +191,7 @@ const DataGrid = React.memo(({
                     }}
                     aria-label="First Page"
                 >
-                    <span className="ui-icon ui-icon-seek-end">{"<<"}</span>
+                   <span>{"<<"}</span>
                 </a>
                 <a
                     href="#"
@@ -202,7 +202,7 @@ const DataGrid = React.memo(({
                     }}
                     aria-label="Previous Page"
                 >
-                    <span className="ui-icon ui-icon-seek-prev">‹</span>
+                    <span>{"<"}</span>
                 </a>
                 <span>Page {page} of {totalPages}</span>
                 <a
@@ -214,7 +214,7 @@ const DataGrid = React.memo(({
                     }}
                     aria-label="Next Page"
                 >
-                    <span className="ui-icon ui-icon-seek-next">›</span>
+                    <span>{">"}</span>
                 </a>
                 <a
                     href="#"
@@ -225,7 +225,7 @@ const DataGrid = React.memo(({
                     }}
                     aria-label="Last Page"
                 >
-                    <span className="ui-icon ui-icon-seek-end">{" >> "}</span>
+                    <span>{">>"}</span>
                 </a>
             </div>
         </div>

@@ -112,14 +112,13 @@
 /* Paginator Links Styling */
 .ui-paginator-first, .ui-paginator-prev, .ui-paginator-next, .ui-paginator-last {
     text-decoration: none;
-    padding: 5px 10px;
-    margin: 0 5px;
+    padding: 5px 10px;    
     border-radius: 3px;
     display: inline-block;
     background-color: #f1f1f1;
     color: #333;
     font-size: 16px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s;    
 }
 
 /* Hover Effects */

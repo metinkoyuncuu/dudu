@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import SelectDemo from './components/select/SelectDemo';
-import RadioDemo from './components/radio/radioDemo';
-import FileDemo from './components/file/fileDemo';
 import GridDemo from './components/Agtstrap/GridDemo';
 import Toastr from './components/uicomponents/toastr/toastr';
 import ToastrDemo from './components/uicomponents/toastr/ToastrDemo';
@@ -35,20 +33,7 @@ function App() {
         
 
 
-          {/* <Checkbox
-            label="Primary"
-            checked = {true}
-            onChange = {()=>x()}
-            colorUnchecked="Primary"
-            colorChecked="red"
-            variant="primary"
-            initialColor="primary"
-          />
-          <SelectDemo/>
-          
-          <Select/>
-          <RadioDemo/>
-          <FileDemo/> */}
+         
 
           <PanelGridDemo/>
         </div>
