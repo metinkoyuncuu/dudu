@@ -18,61 +18,54 @@ const DataGrid = React.memo(({
     enableSort = true,
     rowsPerPage: externalRowsPerPage = 10,
 }) => {
-    const [data, setData] = useState([]); // Tüm veri
-    const [filteredData, setFilteredData] = useState([]); // Filtrelenmiş veri
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(1); // Sayfa numarası
-    const [rowsPerPage, setRowsPerPage] = useState(externalRowsPerPage); // Sayfa başına satır sayısı
-    const [filters, setFilters] = useState({}); // Filtreler
-    const [selectedRow, setSelectedRow] = useState(null); // Seçilen satır
+    const [page, setPage] = useState(1);
+    const [rowsPerPage, setRowsPerPage] = useState(externalRowsPerPage);
+    const [filters, setFilters] = useState({});
+    const [selectedRow, setSelectedRow] = useState(null);
 
-    // Veriyi yükle (sadece ilk kez yükleme ve filtreleme değiştiğinde)
     useEffect(() => {
         const loadData = async () => {
             setLoading(true);
-            const result = await fetchData(); // Veriyi al
-            setData(result); // Veriyi set et
-            setFilteredData(result); // Filtrelenmiş veriyi de set et
+            const result = await fetchData();
+            setData(result);
+            setFilteredData(result);
             setLoading(false);
         };
         loadData();
-    }, [fetchData]); // fetchData değiştiğinde veri yükle
+    }, [fetchData]);
 
-    // Sayfa verisini ayarla (sayfa değiştirildiğinde)
-    const handlePageChange = useCallback((newPage) => {
-        setPage(newPage); // Sayfa numarasını güncelle
-    }, []);
-
-    // Filtremeyi yönetme
     const handleFilterChange = useCallback((field, value) => {
         setFilters((prevFilters) => {
             const newFilters = {
                 ...prevFilters,
                 [field]: value,
             };
-            applyFilter(newFilters); // Filtreleme işlemini uygula
             return newFilters;
         });
     }, []);
 
-    // Filtreleme işlemi
-    const applyFilter = (filters) => {
-        let updatedData = [...data];
+    useEffect(() => {
+        const applyFilter = () => {
+            let updatedData = [...data];
+            Object.keys(filters).forEach((key) => {
+                const filterValue = filters[key];
+                if (filterValue) {
+                    updatedData = updatedData.filter((row) => {
+                        const cellValue = String(row[key] || '').toLowerCase();
+                        return cellValue.includes(filterValue.toLowerCase());
+                    });
+                }
+            });
+            setFilteredData(updatedData);
+            setPage(1); // Filtreleme sonrası sayfayı başa döndür
+        };
 
-        // Filtrele
-        for (const key in filters) {
-            if (filters[key]) {
-                updatedData = updatedData.filter((row) =>
-                    String(row[key]).toLowerCase().includes(filters[key].toLowerCase())
-                );
-            }
-        }
+        applyFilter();
+    }, [filters, data]);
 
-        setFilteredData(updatedData);
-        setPage(1); // Filtre uygulandıktan sonra ilk sayfaya dön
-    };
-
-    // Dışa aktarım işlemleri
     const exportToExcel = useCallback((fileType) => {
         const ws = XLSX.utils.json_to_sheet(filteredData);
         const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
@@ -91,7 +84,6 @@ const DataGrid = React.memo(({
         }
     }, [filteredData, fileName]);
 
-    // Sayfa verisini hesapla
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
     const startIdx = (page - 1) * rowsPerPage;
     const endIdx = page * rowsPerPage;
@@ -143,10 +135,9 @@ const DataGrid = React.memo(({
                                     </div>
                                     {enableFilter && col.filterable && (
                                         <input
-                                            key={col.field} // Her input için benzersiz bir key
                                             type="text"
                                             placeholder={`Filter ${col.header}`}
-                                            value={filters[col.field] || ''} // İlgili filtre değerini göster
+                                            value={filters[col.field] || ''}
                                             onChange={(e) => handleFilterChange(col.field, e.target.value)}
                                             className="filter-input"
                                         />
@@ -187,18 +178,18 @@ const DataGrid = React.memo(({
                     className={`ui-paginator-first ui-state-default ui-corner-all ${page === 1 ? 'ui-state-disabled' : ''}`}
                     onClick={(e) => {
                         e.preventDefault();
-                        handlePageChange(1);
+                        setPage(1);
                     }}
                     aria-label="First Page"
                 >
-                   <span>{"<<"}</span>
+                    <span>{"<<"}</span>
                 </a>
                 <a
                     href="#"
                     className={`ui-paginator-prev ui-state-default ui-corner-all ${page === 1 ? 'ui-state-disabled' : ''}`}
                     onClick={(e) => {
                         e.preventDefault();
-                        handlePageChange(Math.max(page - 1, 1));
+                        setPage((prev) => Math.max(prev - 1, 1));
                     }}
                     aria-label="Previous Page"
                 >
@@ -210,7 +201,7 @@ const DataGrid = React.memo(({
                     className={`ui-paginator-next ui-state-default ui-corner-all ${page === totalPages ? 'ui-state-disabled' : ''}`}
                     onClick={(e) => {
                         e.preventDefault();
-                        handlePageChange(Math.min(page + 1, totalPages));
+                        setPage((prev) => Math.min(prev + 1, totalPages));
                     }}
                     aria-label="Next Page"
                 >
@@ -221,7 +212,7 @@ const DataGrid = React.memo(({
                     className={`ui-paginator-last ui-state-default ui-corner-all ${page === totalPages ? 'ui-state-disabled' : ''}`}
                     onClick={(e) => {
                         e.preventDefault();
-                        handlePageChange(totalPages);
+                        setPage(totalPages);
                     }}
                     aria-label="Last Page"
                 >

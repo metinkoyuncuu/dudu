@@ -21,7 +21,7 @@
 .calendar {
   position: absolute;
   top: 50px; /* Takvimin dikey konumu */
-  left: 156px;   /* Input kutusunun sol kenarına hizalanacak */
+  left: 100px;   /* Input kutusunun sol kenarına hizalanacak */
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 4px;
