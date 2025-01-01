@@ -1,49 +1,48 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './datePicker.css';
+import './datePickerHour.css';
 
 const DatePickerHour = ({ selected, onChange, dateFormat, className, label, required }) => {
   const today = new Date();
   const [showCalendar, setShowCalendar] = useState(false);
+
   const [currentDate, setCurrentDate] = useState(
     selected && !isNaN(Date.parse(selected)) ? new Date(selected) : today
   );
+
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
 
-  const calendarRef = useRef(null); // Takvim için ref
+  const calendarRef = useRef(null);
 
-  // Takvimi açma/kapama
   const handleCalendarToggle = () => setShowCalendar(!showCalendar);
 
   const handleDateSelect = (date) => {
-    const updatedDate = new Date(date);
-    updatedDate.setHours(currentDate.getHours());
-    updatedDate.setMinutes(currentDate.getMinutes());
-    updatedDate.setSeconds(currentDate.getSeconds());
+    const updatedDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      currentDate.getHours(),
+      currentDate.getMinutes(),
+      currentDate.getSeconds()
+    );
+    setCurrentDate(updatedDate);
+    if (onChange) {
+      onChange(formatDate(updatedDate));
+    }
+    setShowCalendar(false);
+  };
+
+  const handleTimeChange = (type, value) => {
+    const updatedDate = new Date(currentDate);
+    if (type === 'hours') updatedDate.setHours(value);
+    if (type === 'minutes') updatedDate.setMinutes(value);
+    if (type === 'seconds') updatedDate.setSeconds(value);
 
     setCurrentDate(updatedDate);
     if (onChange) {
-      onChange(updatedDate); // Parent bileşene tarih gönder
+      onChange(formatDate(updatedDate));
     }
-    setShowCalendar(false); // Takvimi kapatma
   };
-
-  // Takvimin dışına tıklama algılama ve kapatma
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-        setShowCalendar(false); // Takvimi kapat
-      }
-    };
-
-    // Event listener'ı ekle
-    document.addEventListener('mousedown', handleClickOutside);
-
-    // Temizleme: component unmount olduğunda event listener'ı kaldır
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   const formatDate = (date) => {
     if (date instanceof Date && !isNaN(date.getTime())) {
@@ -55,7 +54,6 @@ const DatePickerHour = ({ selected, onChange, dateFormat, className, label, requ
       const seconds = String(date.getSeconds()).padStart(2, '0');
       return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
     } else {
-      console.error('Geçersiz tarih:', date);
       return '';
     }
   };
@@ -77,76 +75,70 @@ const DatePickerHour = ({ selected, onChange, dateFormat, className, label, requ
     return new Date(year, month + 1, 0).getDate();
   };
 
+  const renderWeekDays = () => {
+    const weekDays = ['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct', 'Pz'];
+    return (
+      <div className="calendar-weekdays">
+        {weekDays.map((day, index) => (
+          <div key={index} className="calendar-weekday">
+            {day}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   const renderCalendarDays = () => {
-    const daysInMonth = getDaysInMonth(currentYear, currentMonth);
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-    const adjustedFirstDay = (firstDayOfMonth + 6) % 7; // Haftayı Pazartesi ile başlat
+    const daysInMonth = getDaysInMonth(currentYear, currentMonth);
     const daysArray = [];
 
-    // Boş hücreleri ekle
-    for (let i = 0; i < adjustedFirstDay; i++) {
-      daysArray.push(<span key={`empty-${i}`} className="calendar-day empty"></span>);
+    for (let i = 0; i < (firstDayOfMonth + 6) % 7; i++) {
+      daysArray.push(<div key={`empty-${i}`} className="calendar-day empty"></div>);
     }
 
-    // Günleri ekle
     for (let i = 1; i <= daysInMonth; i++) {
       const day = new Date(currentYear, currentMonth, i);
+
+      // Seçili günü belirleme
+      const isSelected =
+        day.getDate() === currentDate.getDate() &&
+        day.getMonth() === currentDate.getMonth() &&
+        day.getFullYear() === currentDate.getFullYear();
+
       daysArray.push(
-        <span
+        <div
           key={i}
-          className={`calendar-day ${day.getTime() === currentDate.getTime() ? 'selected' : ''}`}
+          className={`calendar-day ${isSelected ? 'selected' : ''}`}
           onClick={() => handleDateSelect(day)}
         >
           {i}
-        </span>
+        </div>
       );
-    }
-
-    // Ay sonuna ek boş hücreleri tamamla
-    const totalCells = adjustedFirstDay + daysInMonth;
-    const additionalEmptyCells = Math.ceil(totalCells / 7) * 7 - totalCells;
-
-    for (let i = 0; i < additionalEmptyCells; i++) {
-      daysArray.push(<span key={`end-empty-${i}`} className="calendar-day empty"></span>);
     }
 
     return daysArray;
   };
 
-  const handleTimeChange = (e, type) => {
-    const newDate = new Date(currentDate);
-    if (type === 'hours') {
-      newDate.setHours(e.target.value);
-    } else if (type === 'minutes') {
-      newDate.setMinutes(e.target.value);
-    } else if (type === 'seconds') {
-      newDate.setSeconds(e.target.value);
-    }
-    setCurrentDate(newDate);
-    if (onChange) {
-      onChange(newDate); // Parent bileşene tarih gönder
-    }
-  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        setShowCalendar(false);
+      }
+    };
 
-  // Haftanın günleri: Pt, Sa, Ça, Pe, Cu, Ct, Pz
-  const weekDays = ['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct', 'Pz'];
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div className={`datepicker-container ${className}`} style={{ display: 'flex', alignItems: 'center' }}>
+    <div className={`datepicker-container ${className}`}>
       {label && (
-        <label
-          className="block label"
-          style={{
-            width: '100px',
-            display: 'inline-block',
-            wordWrap: 'break-word',
-            whiteSpace: 'normal',
-            maxWidth: '100%',
-            wordBreak: 'break-word',
-            marginRight: label?.length > 10 ? '10px' : '10px',
-          }}
-        >
-          {label} : {required && <span style={{ color: 'red' }}>*</span>}
+        <label className="block label">
+          {label} {required && <span style={{ color: 'red' }}>*</span>}
         </label>
       )}
       <input
@@ -159,51 +151,53 @@ const DatePickerHour = ({ selected, onChange, dateFormat, className, label, requ
       {showCalendar && (
         <div className="calendar" ref={calendarRef}>
           <div className="calendar-header">
-            <button onClick={() => changeMonth(-1)}>&lt;</button>
-            <span>{`${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`}</span>
-            <button onClick={() => changeMonth(1)}>&gt;</button>
+            <button
+              type="button"
+              aria-label="Previous Month"
+              className="ui-datepicker-prev ui-corner-all"
+              onClick={() => changeMonth(-1)}
+              tabIndex="0"
+            >
+              &#60;
+            </button>
+            <span>
+              {`${new Date(currentYear, currentMonth).toLocaleString('default', {
+                month: 'long',
+              })} ${currentYear}`}
+            </span>
+            <button
+              type="button"
+              aria-label="Next Month"
+              className="ui-datepicker-next ui-corner-all"
+              onClick={() => changeMonth(1)}
+              tabIndex="0"
+            >
+              &#62;
+            </button>
           </div>
-          <div className="calendar-weekdays">
-            {weekDays.map((day, index) => (
-              <div key={index} className="calendar-weekday">
-                {day}
-              </div>
-            ))}
-          </div>
+          {renderWeekDays()}
           <div className="calendar-days">{renderCalendarDays()}</div>
-          <div className="time-input" style={{ marginTop: '15px', height: '20px' }}>
-            <label className="dark-label">
-              Saat :
-              <input
-                type="number"
-                value={String(currentDate.getHours()).padStart(2, '0')}
-                onChange={(e) => handleTimeChange(e, 'hours')}
-                className="time-input-field"
-                style={{ width: '40px', fontSize: '18px', marginLeft: '10px' }}
-                min="0"
-                max="23"
-              />
-              <span style={{ marginLeft: '5px' }}>:</span>
-              <input
-                type="number"
-                value={String(currentDate.getMinutes()).padStart(2, '0')}
-                onChange={(e) => handleTimeChange(e, 'minutes')}
-                className="time-input-field"
-                style={{ width: '40px', fontSize: '18px' }}
-                min="0"
-                max="59"
-              />
-              <span style={{ marginLeft: '5px' }}>:</span>
-              <input
-                type="number"
-                value={String(currentDate.getSeconds()).padStart(2, '0')}
-                onChange={(e) => handleTimeChange(e, 'seconds')}
-                className="time-input-field"
-                style={{ width: '40px', fontSize: '18px', marginLeft: '10px' }}
-                min="0"
-                max="59"
-              />
-            </label>
+          <div className="time-picker">
+            <input
+              type="number"
+              className="time-input"
+              value={String(currentDate.getHours()).padStart(2, '0')}
+              onChange={(e) => handleTimeChange('hours', Math.min(23, Math.max(0, e.target.value)))}
+            />
+            :
+            <input
+              type="number"
+              className="time-input"
+              value={String(currentDate.getMinutes()).padStart(2, '0')}
+              onChange={(e) => handleTimeChange('minutes', Math.min(59, Math.max(0, e.target.value)))}
+            />
+            :
+            <input
+              type="number"
+              className="time-input"
+              value={String(currentDate.getSeconds()).padStart(2, '0')}
+              onChange={(e) => handleTimeChange('seconds', Math.min(59, Math.max(0, e.target.value)))}
+            />
           </div>
         </div>
       )}

@@ -14,7 +14,13 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
 
   const calendarRef = useRef(null);
 
-  const handleCalendarToggle = () => setShowCalendar(!showCalendar);
+  const handleCalendarToggle = () => {
+    if (!showCalendar) {
+      setCurrentMonth(currentDate.getMonth());
+      setCurrentYear(currentDate.getFullYear());
+    }
+    setShowCalendar(!showCalendar);
+  };
 
   const handleDateSelect = (date) => {
     setCurrentDate(date);
@@ -76,10 +82,16 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
 
     for (let i = 1; i <= daysInMonth; i++) {
       const day = new Date(currentYear, currentMonth, i);
+
+      // Seçili günü kontrol et
+      const isSelected = day.getDate() === currentDate.getDate() &&
+        day.getMonth() === currentDate.getMonth() &&
+        day.getFullYear() === currentDate.getFullYear();
+
       daysArray.push(
         <div
           key={i}
-          className={`calendar-day ${day.getTime() === currentDate.getTime() ? 'selected' : ''}`}
+          className={`calendar-day ${isSelected ? 'selected' : ''}`}
           onClick={() => handleDateSelect(day)}
         >
           {i}
@@ -121,13 +133,29 @@ const DatePicker = ({ selected, onChange, dateFormat, className, label, required
       {showCalendar && (
         <div className="calendar" ref={calendarRef}>
           <div className="calendar-header">
-            <button onClick={() => changeMonth(-1)}>&lt;</button>
+            <button
+              type="button"
+              aria-label="Previous Month"
+              className="ui-datepicker-prev ui-corner-all"
+              onClick={() => changeMonth(-1)}
+              tabIndex="0"
+            >
+              &#60;
+            </button>
             <span>
               {`${new Date(currentYear, currentMonth).toLocaleString('default', {
                 month: 'long',
               })} ${currentYear}`}
             </span>
-            <button onClick={() => changeMonth(1)}>&gt;</button>
+            <button
+              type="button"
+              aria-label="Next Month"
+              className="ui-datepicker-next ui-corner-all"
+              onClick={() => changeMonth(1)}
+              tabIndex="0"
+            >
+              &#62;
+            </button>
           </div>
           {renderWeekDays()}
           <div className="calendar-days">{renderCalendarDays()}</div>
