@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { CSVLink } from 'react-csv';
 import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf'; // PDF oluşturmak için gerekli
+import 'jspdf-autotable';
 import './dataGrid.css';
 
 const DataGrid = React.memo(({
@@ -13,6 +15,7 @@ const DataGrid = React.memo(({
     showXlsButton = true,
     showCsvButton = true,
     showTxtButton = true,
+    showPdfButton = true,
     gridPosition = { x: '0px', y: '0px' },
     enableFilter = true,
     enableSort = true,
@@ -84,6 +87,20 @@ const DataGrid = React.memo(({
         }
     }, [filteredData, fileName]);
 
+    const exportToPdf = useCallback(() => {
+        const doc = new jsPDF();
+        const headers = columns.map(col => col.header);
+        const rows = filteredData.map(row => columns.map(col => row[col.field]));
+
+        doc.text(fileName, 20, 10);
+        doc.autoTable({
+            head: [headers],
+            body: rows,
+        });
+
+        doc.save(`${fileName}.pdf`);
+    }, [filteredData, columns, fileName]);
+
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
     const startIdx = (page - 1) * rowsPerPage;
     const endIdx = page * rowsPerPage;
@@ -103,23 +120,59 @@ const DataGrid = React.memo(({
         >
             <div className="export-buttons">
                 {showXlsxButton && (
-                    <button onClick={() => exportToExcel('xlsx')} className="export-button">
+                    <button
+                        id="xlsx-button"
+                        name="xlsx-button"
+                        className="export-button"
+                        onClick={() => exportToExcel('xlsx')}
+                        type="button"
+                    >
                         XLSX
                     </button>
                 )}
                 {showXlsButton && (
-                    <button onClick={() => exportToExcel('xls')} className="export-button">
+                    <button
+                        id="xls-button"
+                        name="xls-button"
+                        className="export-button"
+                        onClick={() => exportToExcel('xls')}
+                        type="button"
+                    >
                         XLS
                     </button>
                 )}
                 {showCsvButton && (
                     <CSVLink data={filteredData} filename={`${fileName}.csv`}>
-                        <button className="export-button">CSV</button>
+                        <button
+                            id="csv-button"
+                            name="csv-button"
+                            className="export-button"
+                            type="button"
+                        >
+                            CSV
+                        </button>
                     </CSVLink>
                 )}
                 {showTxtButton && (
-                    <button onClick={() => exportToExcel('txt')} className="export-button">
+                    <button
+                        id="txt-button"
+                        name="txt-button"
+                        className="export-button"
+                        onClick={() => exportToExcel('txt')}
+                        type="button"
+                    >
                         TXT
+                    </button>
+                )}
+                {showPdfButton && (
+                    <button
+                        id="pdf-button"
+                        name="pdf-button"
+                        className="export-button"
+                        onClick={exportToPdf}
+                        type="button"
+                    >
+                        PDF
                     </button>
                 )}
             </div>

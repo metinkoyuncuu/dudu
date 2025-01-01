@@ -330,7 +330,7 @@ function PanelGridDemo() {
                     gridWidth="98%"
                     gridPosition={{ x: '20px', y: '1050px' }}
                     fileName="hayal"
-                    rowsPerPage={6}
+                    rowsPerPage={2}
                     showXlsxButton={true}
                     showXlsButton={true}
                     showCsvButton={true}

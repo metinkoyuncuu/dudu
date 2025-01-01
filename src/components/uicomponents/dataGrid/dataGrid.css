@@ -4,23 +4,44 @@
 }
 
 .export-buttons {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
+    display: flex; /* Butonları yatay hizalar */
+    gap: 10px; /* Butonlar arasındaki boşluk */
 }
 
-.export-buttons button {
-    padding: 8px 12px;
-    font-size: 14px;
+.export-button,
+.ui-button {
+    padding: 8px 16px; /* Buton içindeki boşluk */
+    font-size: 14px; /* Yazı boyutu */
+    border: 1px solid #ccc; /* Kenarlık */
+    border-radius: 4px; /* Köşeleri hafif yuvarlatır */
+    background-color: #007bff; /* Arka plan rengi */
+    color: white; /* Yazı rengi */
+    cursor: pointer; /* Fare imleci değişikliği */
+    text-align: center; /* Yazıyı ortalar */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hover ve tıklama animasyonu */
+    min-width: 30px; /* Butonların minimum genişliği */
+    height: 30px; /* Sabit yükseklik */
+    display: inline-flex; /* Butonu düzgün hizalar */
+    justify-content: center; /* İçerik yatay merkezde */
+    align-items: center; /* İçerik dikey merkezde */
+}
+
+.export-button:hover,
+.ui-button:hover {
+    background-color: #0056b3; /* Hover durumu için koyu mavi */
+}
+
+.export-button:active,
+.ui-button:active {
+    transform: scale(0.95); /* Tıklama animasyonu */
+}
+
+.ui-button {
+    /* .ui-button sınıfının da .export-button ile aynı görünümde olması için */
+    border-radius: 4px;
     background-color: #007bff;
     color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;    
-}
-
-.export-buttons button:hover {
-    background-color: #0056b3;
+    border: 1px solid #ccc;
 }
 
 .datagrid {
@@ -83,7 +104,7 @@
 .pagination button {
     padding: 5px 15px;
     border-radius: 4px;
-    background-color: #007bff;
+    background-color: #ddd;
     color: white;
     border: none;
     cursor: pointer;
@@ -163,3 +184,4 @@ span {
     margin: 0 10px;
     font-size: 16px;
 }
+
